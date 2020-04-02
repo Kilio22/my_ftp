@@ -7,6 +7,16 @@
 
 #include "my_ftp.h"
 
+size_t my_array_len(char **array)
+{
+    size_t i = 0;
+
+    if (array == NULL)
+        return 0;
+    for (; array[i]; i++);
+    return i;
+}
+
 void remove_client(my_ftp_t *my_ftp, client_t *client)
 {
     size_t i = 0;

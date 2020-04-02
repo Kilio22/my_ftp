@@ -41,16 +41,22 @@ INCL_PATH	=	$(ROOT_PATH)$(INCL_NAME)
 TESTS_PATH	=	$(ROOT_PATH)$(TESTS_NAME)
 SRC_PATH	=	$(ROOT_PATH)$(SRC_NAME)
 
+COMMANDS_PATH	=	ftp_commands
+
 SRC	=	accept.c	\
 		const_values.c	\
+		data_channel_utils.c	\
 		get_client_input.c	\
 		init_ftp.c	\
 		init_server.c	\
 		manage_client.c	\
 		manage_server.c	\
-		poll_fds.c	\
+		poll_sockets.c	\
 		server_loop.c	\
-		utils.c
+		utils.c	\
+		$(COMMANDS_PATH)/port.c	\
+		$(COMMANDS_PATH)/pasv.c	\
+		$(COMMANDS_PATH)/retr.c
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)

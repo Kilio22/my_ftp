@@ -48,14 +48,14 @@ int create_server(in_port_t port)
     return fd;
 }
 
-server_t *init_server(in_port_t port)
+socket_t *init_server(in_port_t port)
 {
     int fd = create_server(port);
-    server_t *server_fd = malloc(sizeof(server_t));
+    socket_t *server_socket = malloc(sizeof(socket_t));
 
     if (fd == -1)
         return NULL;
-    server_fd->fd = fd;
-    server_fd->is_triggered = false;
-    return server_fd;
+    server_socket->fd = fd;
+    server_socket->is_triggered = false;
+    return server_socket;
 }

@@ -9,7 +9,7 @@
 
 int init_ftp(my_ftp_t *my_ftp, char **av)
 {
-    server_t *server = NULL;
+    socket_t *server = NULL;
     char *given_port = strdup(av[1]);
     in_port_t port = strtol(given_port, &given_port, 10);
 

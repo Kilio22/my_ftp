@@ -17,7 +17,7 @@ int manage_server(my_ftp_t *my_ftp)
     if (my_ftp->current_idx < FD_SETSIZE) {
         my_ftp->clients[my_ftp->current_idx++] = client;
     } else {
-        close(client->fd);
+        close(client->socket.fd);
         free(client);
     }
     return 0;

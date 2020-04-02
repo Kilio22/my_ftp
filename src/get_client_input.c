@@ -32,7 +32,7 @@ char *get_client_input(client_t *client)
     char *tmp = NULL;
     ssize_t nread = 0;
 
-    nread = read(client->fd, buff, READ_SIZE);
+    nread = read(client->socket.fd, buff, READ_SIZE);
     if (nread <= 0) {
         tmp = client->buffer;
         client->buffer = NULL;

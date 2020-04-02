@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -20,35 +21,58 @@
 #include <sys/time.h>
 #include <stdbool.h>
 
-typedef struct server_s server_t;
+typedef struct socket_s socket_t;
 typedef struct my_ftp_s my_ftp_t;
 typedef struct client_s client_t;
+typedef struct data_channel_s data_channel_t;
 
 #define READ_SIZE 4096
+
+enum data_channel_status_e
+{
+    NONE,
+    ACTIVE,
+    PASSIVE
+};
+
+struct socket_s
+{
+    struct sockaddr_in sock_in;
+    int fd;
+    bool is_triggered;
+};
+
+struct data_channel_s
+{
+    enum data_channel_status_e status;
+    socket_t server;
+    int fd;
+};
+
+struct my_ftp_s
+{
+    client_t **clients;
+    socket_t *main_server;
+    size_t current_idx;
+    fd_set r_set;
+    char *root_path;
+};
 
 struct client_s
 {
     char *username;
     char *password;
     char *buffer;
-    int fd;
-    bool is_triggered;
+    socket_t socket;
+    data_channel_t data_channel;
     bool is_connected;
 };
 
-struct server_s
+struct command_s
 {
-    int fd;
-    bool is_triggered;
-};
-
-struct my_ftp_s
-{
-    client_t **clients;
-    server_t *main_server;
-    size_t current_idx;
-    fd_set r_set;
-    char *root_path;
+    char *name;
+    int (*ptr)(my_ftp_t *my_ftp, client_t *client, char **params);
+    size_t params_nb;
 };
 
 extern const char SERVICE_READY[];
@@ -65,15 +89,34 @@ extern const char ACTION_250[];
 extern const char PATHNAME_257[];
 extern const char LOGIN_331[];
 extern const char LOGIN_332[];
+extern const char NOT_LOGGED_530[];
+extern const char BAD_COMMAND_500[];
+extern const char SYNTAX_ERROR[];
+extern const char FILE_NOT_FOUND[];
+extern const char CANNOT_OPEN_DATA_CHAN[];
+extern const char TRANSFER_ABORT[];
 
-server_t *init_server(in_port_t port);
+socket_t *init_server(in_port_t port);
 int init_ftp(my_ftp_t *my_ftp, char **av);
-int poll_fds(my_ftp_t *my_ftp);
-client_t *accept_client(server_t *main_server);
+int poll_sockets(my_ftp_t *my_ftp);
+client_t *accept_client(socket_t *main_server);
 int server_loop(my_ftp_t *my_ftp);
 char *get_client_input(client_t *client);
 int manage_client(my_ftp_t *my_ftp, client_t *client);
 int manage_server(my_ftp_t *my_ftp);
+int create_socket(void);
+int create_server(in_port_t port);
+
+// utils
 void remove_client(my_ftp_t *my_ftp, client_t *client);
+size_t my_array_len(char **array);
+bool is_data_channel_open(data_channel_t *data_channel, int fd);
+int connect_to_data_channel(client_t *client);
+void close_data_channel(client_t *client);
+
+// commands
+int port(my_ftp_t *my_ftp, client_t *client, char **params);
+int retr(my_ftp_t *my_ftp, client_t *client, char **params);
+int pasv(my_ftp_t *my_ftp, client_t *client, char **params);
 
 #endif /* !MY_FTP_H_ */

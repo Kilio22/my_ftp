@@ -32,11 +32,11 @@ static char **parse_client_input(char *buffer)
     return array;
 }
 
-static int exec_command(my_ftp_t *my_ftp, client_t *client, char **params)
+static void exec_command(my_ftp_t *my_ftp, client_t *client, char **params)
 {
     if (my_array_len(params) < 1) {
         write(client->socket.fd, SYNTAX_ERROR, strlen(SYNTAX_ERROR));
-        return -1;
+        return;
     }
     for (size_t i = 0; command_array[i].name != NULL; i++) {
         if (strcmp(command_array[i].name, params[0]) == 0 &&
@@ -45,11 +45,10 @@ command_array[i].params_nb == -1)) {
             return command_array[i].ptr(my_ftp, client, params);
         } else if (strcmp(command_array[i].name, params[0]) == 0) {
             write(client->socket.fd, SYNTAX_ERROR, strlen(SYNTAX_ERROR));
-            return -1;
+            return;
         }
     }
     write(client->socket.fd, BAD_COMMAND_500, strlen(BAD_COMMAND_500));
-    return -1;
 }
 
 int manage_client(my_ftp_t *my_ftp, client_t *client)
@@ -64,5 +63,10 @@ int manage_client(my_ftp_t *my_ftp, client_t *client)
         return 0;
     printf("[%s]\n", buffer);
     params = parse_client_input(buffer);
-    return exec_command(my_ftp, client, params);
+    exec_command(my_ftp, client, params);
+    for (size_t i = 0; params[i]; i++) {
+        free(params[i]);
+    }
+    free(params);
+    return 0;
 }

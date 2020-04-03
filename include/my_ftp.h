@@ -71,7 +71,7 @@ struct client_s
 struct command_s
 {
     char *name;
-    int (*ptr)(my_ftp_t *my_ftp, client_t *client, char **params);
+    void (*ptr)(my_ftp_t *my_ftp, client_t *client, char **params);
     ssize_t params_nb;
 };
 
@@ -115,12 +115,13 @@ bool is_data_channel_open(data_channel_t *data_channel, int fd);
 int connect_to_data_channel(client_t *client);
 void close_data_channel(client_t *client);
 bool has_valid_creditentials(client_t *client);
+my_ftp_t *get_ftp(my_ftp_t *ftp);
 
 // commands
-int port(my_ftp_t *my_ftp, client_t *client, char **params);
-int retr(my_ftp_t *my_ftp, client_t *client, char **params);
-int pasv(my_ftp_t *my_ftp, client_t *client, char **params);
-int pass(my_ftp_t *my_ftp, client_t *client, char **params);
-int user(my_ftp_t *my_ftp, client_t *client, char **params);
+void port(my_ftp_t *my_ftp, client_t *client, char **params);
+void retr(my_ftp_t *my_ftp, client_t *client, char **params);
+void pasv(my_ftp_t *my_ftp, client_t *client, char **params);
+void pass(my_ftp_t *my_ftp, client_t *client, char **params);
+void user(my_ftp_t *my_ftp, client_t *client, char **params);
 
 #endif /* !MY_FTP_H_ */

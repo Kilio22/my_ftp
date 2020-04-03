@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-static int init_data_channel(client_t *client, int server_socket)
+static void init_data_channel(client_t *client, int server_socket)
 {
     char *ip_address = inet_ntoa(client->data_channel.server.sock_in.sin_addr);
     int ip_numbers[4] = {0};
@@ -21,10 +21,9 @@ ip_numbers[1], ip_numbers[2], ip_numbers[3], port / 256, port % 256);
     client->data_channel.status = PASSIVE;
     client->data_channel.server.fd = server_socket;
     client->data_channel.server.is_triggered = false;
-    return 0;
 }
 
-int pasv(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
+void pasv(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
 char **params __attribute__((unused)))
 {
     int server_socket = 0;
@@ -35,10 +34,10 @@ char **params __attribute__((unused)))
     if (server_socket == -1) {
         write(client->socket.fd, CANNOT_OPEN_DATA_CHAN,
 strlen(CANNOT_OPEN_DATA_CHAN));
-        return -1;
+        return;
     }
     getsockname(server_socket,
 (struct sockaddr *)&client->data_channel.server.sock_in, &size);
     init_data_channel(client, server_socket);
-    return 0;
+    return;
 }

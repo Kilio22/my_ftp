@@ -35,6 +35,9 @@ void remove_client(my_ftp_t *my_ftp, client_t *client)
 {
     size_t i = 0;
 
+    close(client->socket.fd);
+    free(client->password);
+    free(client->username);
     for (; i < my_ftp->current_idx; i++) {
         if (my_ftp->clients[i] == client) {
             free(my_ftp->clients[i]);
@@ -49,4 +52,14 @@ void remove_client(my_ftp_t *my_ftp, client_t *client)
         my_ftp->clients[i + 1] = NULL;
     }
     my_ftp->current_idx--;
+}
+
+my_ftp_t *get_ftp(my_ftp_t *ftp)
+{
+    static my_ftp_t *store_ftp = NULL;
+
+    if (ftp == NULL)
+        return store_ftp;
+    store_ftp = ftp;
+    return ftp;
 }

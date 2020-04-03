@@ -5,7 +5,28 @@
 ** server_loop
 */
 
+#include <signal.h>
 #include "my_ftp.h"
+
+void my_sa_handler(int sig)
+{
+    my_ftp_t *my_ftp = NULL;
+
+    if (sig != SIGINT)
+        return;
+    my_ftp = get_ftp(NULL);
+    for (size_t i = 0; i < my_ftp->current_idx; i++) {
+        close(my_ftp->clients[i]->socket.fd);
+        free(my_ftp->clients[i]->password);
+        free(my_ftp->clients[i]->username);
+        free(my_ftp->clients[i]);
+    }
+    free(my_ftp->clients);
+    close(my_ftp->main_server->fd);
+    free(my_ftp->main_server);
+    free(my_ftp->root_path);
+    exit(0);
+}
 
 void manage_other_servers(client_t *client)
 {
@@ -36,6 +57,7 @@ my_ftp->clients[i]->socket.is_triggered == true)
 
 int server_loop(my_ftp_t *my_ftp)
 {
+    signal(SIGINT, &my_sa_handler);
     while (42) {
         if (poll_sockets(my_ftp) == -1)
             return -1;

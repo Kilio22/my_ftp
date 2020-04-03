@@ -72,7 +72,7 @@ struct command_s
 {
     char *name;
     int (*ptr)(my_ftp_t *my_ftp, client_t *client, char **params);
-    size_t params_nb;
+    ssize_t params_nb;
 };
 
 extern const char SERVICE_READY[];
@@ -91,6 +91,7 @@ extern const char LOGIN_331[];
 extern const char LOGIN_332[];
 extern const char NOT_LOGGED_530[];
 extern const char BAD_COMMAND_500[];
+extern const char WRONG_SEQUENCE[];
 extern const char SYNTAX_ERROR[];
 extern const char FILE_NOT_FOUND[];
 extern const char CANNOT_OPEN_DATA_CHAN[];
@@ -109,14 +110,17 @@ int create_server(in_port_t port);
 
 // utils
 void remove_client(my_ftp_t *my_ftp, client_t *client);
-size_t my_array_len(char **array);
+ssize_t my_array_len(char **array);
 bool is_data_channel_open(data_channel_t *data_channel, int fd);
 int connect_to_data_channel(client_t *client);
 void close_data_channel(client_t *client);
+bool has_valid_creditentials(client_t *client);
 
 // commands
 int port(my_ftp_t *my_ftp, client_t *client, char **params);
 int retr(my_ftp_t *my_ftp, client_t *client, char **params);
 int pasv(my_ftp_t *my_ftp, client_t *client, char **params);
+int pass(my_ftp_t *my_ftp, client_t *client, char **params);
+int user(my_ftp_t *my_ftp, client_t *client, char **params);
 
 #endif /* !MY_FTP_H_ */

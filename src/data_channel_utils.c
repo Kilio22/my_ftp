@@ -46,7 +46,6 @@ int connect_to_data_channel_passive(client_t *client)
     return 0;
 }
 
-
 int connect_to_data_channel(client_t *client)
 {
     if (client->data_channel.status == ACTIVE && client->data_channel.fd == 0) {

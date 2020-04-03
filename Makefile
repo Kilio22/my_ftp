@@ -56,6 +56,8 @@ SRC	=	accept.c	\
 		utils.c	\
 		$(COMMANDS_PATH)/port.c	\
 		$(COMMANDS_PATH)/pasv.c	\
+		$(COMMANDS_PATH)/pass.c	\
+		$(COMMANDS_PATH)/user.c	\
 		$(COMMANDS_PATH)/retr.c
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c

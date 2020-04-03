@@ -7,9 +7,23 @@
 
 #include "my_ftp.h"
 
-size_t my_array_len(char **array)
+static const char default_user[] = "Anonymous";
+static const char default_password[] = "";
+
+bool has_valid_creditentials(client_t *client)
 {
-    size_t i = 0;
+    if (client->password == NULL || client->username == NULL) {
+        return false;
+    }
+    if (!strcmp(client->username, default_user) &&
+!strcmp(client->password, default_password))
+        return true;
+    return false;
+}
+
+ssize_t my_array_len(char **array)
+{
+    ssize_t i = 0;
 
     if (array == NULL)
         return 0;

@@ -11,6 +11,8 @@ static const struct command_s command_array[] = {
     {"PORT", &port, 2},
     {"PASV", &pasv, 1},
     {"RETR", &retr, 2},
+    {"PASS", &pass, -1},
+    {"USER", &user, 2},
     {NULL, NULL, 0}
 };
 
@@ -38,7 +40,8 @@ static int exec_command(my_ftp_t *my_ftp, client_t *client, char **params)
     }
     for (size_t i = 0; command_array[i].name != NULL; i++) {
         if (strcmp(command_array[i].name, params[0]) == 0 &&
-my_array_len(params) == command_array[i].params_nb) {
+(my_array_len(params) == command_array[i].params_nb ||
+command_array[i].params_nb == -1)) {
             return command_array[i].ptr(my_ftp, client, params);
         } else if (strcmp(command_array[i].name, params[0]) == 0) {
             write(client->socket.fd, SYNTAX_ERROR, strlen(SYNTAX_ERROR));

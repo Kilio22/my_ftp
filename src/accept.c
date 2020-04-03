@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-client_t *accept_client(socket_t *main_server)
+client_t *accept_client(socket_t *main_server, char *root_path)
 {
     struct sockaddr_in sock_client = {0};
     socklen_t sockaddr_client_size = sizeof(sock_client);
@@ -25,5 +25,6 @@ client_t *accept_client(socket_t *main_server)
         return NULL;
     }
     client->socket.fd = client_fd;
+    client->cwd = strdup(root_path);
     return client;
 }

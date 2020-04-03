@@ -9,7 +9,7 @@
 
 int manage_server(my_ftp_t *my_ftp)
 {
-    client_t *client = accept_client(my_ftp->main_server);
+    client_t *client = accept_client(my_ftp->main_server, my_ftp->root_path);
 
     if (client == NULL) {
         return -1;
@@ -18,6 +18,7 @@ int manage_server(my_ftp_t *my_ftp)
         my_ftp->clients[my_ftp->current_idx++] = client;
     } else {
         close(client->socket.fd);
+        free(client->cwd);
         free(client);
     }
     return 0;

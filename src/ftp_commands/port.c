@@ -40,6 +40,8 @@ char **params)
 {
     int infos[6] = {-1};
 
+    if (has_valid_creditentials(client, true) == false)
+        return;
     close_data_channel(client);
     if (count_char(params[1], ',') != 5) {
         write(client->socket.fd, SYNTAX_ERROR, strlen(SYNTAX_ERROR));

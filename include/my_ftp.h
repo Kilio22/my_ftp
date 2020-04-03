@@ -12,6 +12,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <limits.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -63,6 +65,7 @@ struct client_s
     char *username;
     char *password;
     char *buffer;
+    char *cwd;
     socket_t socket;
     data_channel_t data_channel;
     bool is_connected;
@@ -98,9 +101,9 @@ extern const char CANNOT_OPEN_DATA_CHAN[];
 extern const char TRANSFER_ABORT[];
 
 socket_t *init_server(in_port_t port);
-int init_ftp(my_ftp_t *my_ftp, char **av);
+int init_ftp(my_ftp_t *my_ftp, char *port, char *real_path);
 int poll_sockets(my_ftp_t *my_ftp);
-client_t *accept_client(socket_t *main_server);
+client_t *accept_client(socket_t *main_server, char *root_path);
 int server_loop(my_ftp_t *my_ftp);
 char *get_client_input(client_t *client);
 int manage_client(my_ftp_t *my_ftp, client_t *client);
@@ -114,8 +117,9 @@ ssize_t my_array_len(char **array);
 bool is_data_channel_open(data_channel_t *data_channel, int fd);
 int connect_to_data_channel(client_t *client);
 void close_data_channel(client_t *client);
-bool has_valid_creditentials(client_t *client);
+bool has_valid_creditentials(client_t *client, bool should_send_msg);
 my_ftp_t *get_ftp(my_ftp_t *ftp);
+char *concat_paths(char *cwd, char *filepath);
 
 // commands
 void port(my_ftp_t *my_ftp, client_t *client, char **params);
@@ -124,5 +128,8 @@ void pasv(my_ftp_t *my_ftp, client_t *client, char **params);
 void pass(my_ftp_t *my_ftp, client_t *client, char **params);
 void user(my_ftp_t *my_ftp, client_t *client, char **params);
 void quit(my_ftp_t *my_ftp, client_t *client, char **params);
+
+// directory
+bool is_dir(char *path);
 
 #endif /* !MY_FTP_H_ */

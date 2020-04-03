@@ -7,14 +7,14 @@
 
 #include "my_ftp.h"
 
-int init_ftp(my_ftp_t *my_ftp, char **av)
+int init_ftp(my_ftp_t *my_ftp, char *user_port, char *real_path)
 {
     socket_t *server = NULL;
-    char *given_port = strdup(av[1]);
+    char *given_port = strdup(user_port);
     char *save_ptr = given_port;
     in_port_t port = strtol(given_port, &given_port, 10);
 
-    if (*given_port != '\0')
+    if (*given_port != '\0' || *save_ptr == '\0')
         return -1;
     free(save_ptr);
     my_ftp->clients = malloc(sizeof(client_t *) * (FD_SETSIZE + 1));
@@ -25,7 +25,7 @@ int init_ftp(my_ftp_t *my_ftp, char **av)
         return -1;
     }
     my_ftp->main_server = server;
-    my_ftp->root_path = strdup(av[2]);
+    my_ftp->root_path = real_path;
     FD_ZERO(&my_ftp->r_set);
     FD_SET(server->fd, &my_ftp->r_set);
     return 0;

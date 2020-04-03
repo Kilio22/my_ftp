@@ -10,14 +10,18 @@
 static const char default_user[] = "Anonymous";
 static const char default_password[] = "";
 
-bool has_valid_creditentials(client_t *client)
+bool has_valid_creditentials(client_t *client, bool should_send_msg)
 {
     if (client->password == NULL || client->username == NULL) {
+        if (should_send_msg == true)
+            write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
         return false;
     }
     if (!strcmp(client->username, default_user) &&
 !strcmp(client->password, default_password))
         return true;
+    if (should_send_msg == true)
+        write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
     return false;
 }
 

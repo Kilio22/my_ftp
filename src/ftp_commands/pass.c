@@ -23,11 +23,10 @@ char **params)
         client->password = NULL;
     }
     client->password = strdup(params[1] == NULL ? "" : params[1]);
-    if (has_valid_creditentials(client) == true) {
+    if (has_valid_creditentials(client, true) == true) {
         write(client->socket.fd, LOGIN_230, strlen(LOGIN_230));
         return;
     } else {
-        write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
         free(client->password);
         client->password = NULL;
     }

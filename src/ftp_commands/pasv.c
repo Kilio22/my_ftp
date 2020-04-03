@@ -29,6 +29,8 @@ char **params __attribute__((unused)))
     int server_socket = 0;
     socklen_t size = sizeof(struct sockaddr_in);
 
+    if (has_valid_creditentials(client, true) == false)
+        return;
     close_data_channel(client);
     server_socket = create_server(0);
     if (server_socket == -1) {

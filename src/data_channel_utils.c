@@ -37,7 +37,7 @@ sizeof(struct sockaddr_in)) == -1)
 
 int connect_to_data_channel_passive(client_t *client)
 {
-    client_t *new_client = accept_client(&client->data_channel.server);
+    client_t *new_client = accept_client(&client->data_channel.server, "");
 
     if (new_client == NULL)
         return -1;

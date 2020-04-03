@@ -30,7 +30,7 @@ void my_sa_handler(int sig)
 
 void manage_other_servers(client_t *client)
 {
-    client_t *new_client = accept_client(&client->data_channel.server);
+    client_t *new_client = accept_client(&client->data_channel.server, "");
 
     if (new_client == NULL) {
         return;
@@ -57,7 +57,7 @@ my_ftp->clients[i]->socket.is_triggered == true)
 
 int server_loop(my_ftp_t *my_ftp)
 {
-    signal(SIGINT, &my_sa_handler);
+    // signal(SIGINT, &my_sa_handler);
     while (42) {
         if (poll_sockets(my_ftp) == -1)
             return -1;

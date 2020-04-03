@@ -60,7 +60,9 @@ SRC	=	accept.c	\
 		$(COMMANDS_PATH)/pass.c	\
 		$(COMMANDS_PATH)/user.c	\
 		$(COMMANDS_PATH)/quit.c	\
-		$(COMMANDS_PATH)/retr.c
+		$(COMMANDS_PATH)/retr.c	\
+		$(COMMANDS_PATH)/cwd.c	\
+		$(COMMANDS_PATH)/cdup.c
 
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c

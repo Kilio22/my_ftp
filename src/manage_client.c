@@ -14,6 +14,8 @@ static const struct command_s command_array[] = {
     {"PASS", &pass, -1},
     {"USER", &user, 2},
     {"QUIT", &quit, 1},
+    {"CWD", &cwd, 2},
+    {"CDUP", &cdup, 1},
     {NULL, NULL, 0}
 };
 

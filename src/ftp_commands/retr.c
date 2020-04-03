@@ -36,7 +36,7 @@ static void handle_child(client_t *client, int fd)
 
 static int get_file_fd(client_t *client, char *path)
 {
-    char *filepath = concat_paths(client->cwd, path);
+    char *filepath = concat_paths(client->cwd, path, false);
     int fd = 0;
 
     if (filepath == NULL) {

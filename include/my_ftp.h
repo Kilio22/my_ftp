@@ -119,7 +119,7 @@ int connect_to_data_channel(client_t *client);
 void close_data_channel(client_t *client);
 bool has_valid_creditentials(client_t *client, bool should_send_msg);
 my_ftp_t *get_ftp(my_ftp_t *ftp);
-char *concat_paths(char *cwd, char *filepath);
+char *concat_paths(char *cwd, char *filepath, bool need_slash);
 
 // commands
 void port(my_ftp_t *my_ftp, client_t *client, char **params);
@@ -128,6 +128,8 @@ void pasv(my_ftp_t *my_ftp, client_t *client, char **params);
 void pass(my_ftp_t *my_ftp, client_t *client, char **params);
 void user(my_ftp_t *my_ftp, client_t *client, char **params);
 void quit(my_ftp_t *my_ftp, client_t *client, char **params);
+void cwd(my_ftp_t *my_ftp, client_t *client, char **params);
+void cdup(my_ftp_t *my_ftp, client_t *client, char **params);
 
 // directory
 bool is_dir(char *path);

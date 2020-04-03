@@ -20,7 +20,7 @@ bool is_dir(char *path)
     return false;
 }
 
-char *concat_paths(char *cwd, char *filepath)
+char *concat_paths(char *cwd, char *filepath, bool need_slash)
 {
     char *new_path = malloc(sizeof(char) *
 (strlen(cwd) + strlen(filepath) + 1));
@@ -35,6 +35,11 @@ char *concat_paths(char *cwd, char *filepath)
         return NULL;
     }
     ptr = strdup(ptr);
+    if (ptr[strlen(ptr - 1) != '/'] && need_slash == true) {
+        ptr = realloc(ptr, strlen(ptr) + 2);
+        ptr[strlen(ptr) + 1] = '\0';
+        ptr[strlen(ptr)] = '/';
+    }
     free(new_path);
     return ptr;
 }

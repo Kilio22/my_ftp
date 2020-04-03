@@ -58,7 +58,9 @@ SRC	=	accept.c	\
 		$(COMMANDS_PATH)/pasv.c	\
 		$(COMMANDS_PATH)/pass.c	\
 		$(COMMANDS_PATH)/user.c	\
+		$(COMMANDS_PATH)/quit.c	\
 		$(COMMANDS_PATH)/retr.c
+
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)

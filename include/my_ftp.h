@@ -123,5 +123,6 @@ void retr(my_ftp_t *my_ftp, client_t *client, char **params);
 void pasv(my_ftp_t *my_ftp, client_t *client, char **params);
 void pass(my_ftp_t *my_ftp, client_t *client, char **params);
 void user(my_ftp_t *my_ftp, client_t *client, char **params);
+void quit(my_ftp_t *my_ftp, client_t *client, char **params);
 
 #endif /* !MY_FTP_H_ */

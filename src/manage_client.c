@@ -13,6 +13,7 @@ static const struct command_s command_array[] = {
     {"RETR", &retr, 2},
     {"PASS", &pass, -1},
     {"USER", &user, 2},
+    {"QUIT", &quit, 1},
     {NULL, NULL, 0}
 };
 

@@ -16,6 +16,11 @@ static const struct command_s command_array[] = {
     {"QUIT", &quit, 1},
     {"CWD", &cwd, 2},
     {"CDUP", &cdup, 1},
+    {"PWD", &pwd, 1},
+    {"DELE", &dele, 2},
+    {"STOR", &stor, 2},
+    {"HELP", &help, 1},
+    {"NOOP", &noop, 1},
     {NULL, NULL, 0}
 };
 
@@ -62,8 +67,10 @@ int manage_client(my_ftp_t *my_ftp, client_t *client)
     if (buffer == NULL) {
         remove_client(my_ftp, client);
         return 0;
-    } else if (strcmp(buffer, "") == 0)
+    } else if (strcmp(buffer, "") == 0) {
+        free(buffer);
         return 0;
+    }
     printf("[%s]\n", buffer);
     params = parse_client_input(buffer);
     exec_command(my_ftp, client, params);
@@ -71,5 +78,6 @@ int manage_client(my_ftp_t *my_ftp, client_t *client)
         free(params[i]);
     }
     free(params);
+    free(buffer);
     return 0;
 }

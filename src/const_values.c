@@ -11,9 +11,9 @@ transfer starting.\r\n";
 const char DATA_150[] = "150 File status okay; about to open \
 data connection.\r\n";
 const char CMD_200[] = "200 Command okay.\r\n";
-const char CMD_HELP[] = "214 Help message. On how to use the server or the \
-meaning of a particular non-standard command. \
-This reply is useful only to the human user.\r\n";
+const char CMD_HELP[] = "214 Help:\nLogin commands: USER; PASS\n\
+Transfer commands: RETR, STOR\nData channel commands: PASV, PORT\nOthers: PWD, \
+CWD, CDUP, LIST, QUIT, DELE, HELP, NOOP\r\n";
 const char SERVICE_220[] = "220 Service ready for new user.\r\n";
 const char SERVICE_221[] = "221 Service closing control connection.\
 Logged out if appropriate.\r\n";

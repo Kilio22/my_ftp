@@ -7,31 +7,12 @@
 
 #include "my_ftp.h"
 
-static char *handle_absolute_path(client_t *client, char *given_path)
+static char *handle_path(client_t *client, char *given_path)
 {
-    struct stat st = {0};
-    char *new_path = NULL;
-
-    if (stat(given_path, &st) == -1 || S_ISDIR(st.st_mode) == false) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
-        return NULL;
-    }
-    new_path = strdup(given_path);
-    if (new_path[strlen(new_path) - 1] != '/') {
-        new_path = realloc(new_path, strlen(new_path) + 2);
-        new_path[strlen(new_path) + 1] = '\0';
-        new_path[strlen(new_path)] = '/';
-    }
-    return new_path;
-}
-
-static char *handle_relative_path(client_t *client, char *given_path)
-{
-    struct stat st = {0};
     char *path = NULL;
 
     path = concat_paths(client->cwd, given_path, true);
-    if (path == NULL || stat(path, &st) == -1 || S_ISDIR(st.st_mode) == false) {
+    if (path == NULL || is_dir(path) == false) {
         write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
         return NULL;
     }
@@ -45,9 +26,9 @@ void cwd(my_ftp_t *my_ftp, client_t *client, char **params)
     if (has_valid_creditentials(client, true) == false)
         return;
     if (params[1][0] == '/') {
-        new_path = handle_absolute_path(client, params[1]);
+        new_path = handle_path(client, &params[1][1]);
     } else {
-        new_path = handle_relative_path(client, params[1]);
+        new_path = handle_path(client, params[1]);
     }
     if (new_path == NULL)
         return;

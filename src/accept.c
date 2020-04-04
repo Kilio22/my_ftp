@@ -7,7 +7,8 @@
 
 #include "my_ftp.h"
 
-client_t *accept_client(socket_t *main_server, char *root_path)
+client_t *accept_client(socket_t *main_server, char *root_path,
+bool should_write)
 {
     struct sockaddr_in sock_client = {0};
     socklen_t sockaddr_client_size = sizeof(sock_client);
@@ -20,7 +21,8 @@ client_t *accept_client(socket_t *main_server, char *root_path)
         fprintf(stderr, "Accept failed.\n");
         return NULL;
     }
-    if (write(client_fd, SERVICE_220, strlen(SERVICE_220)) == -1) {
+    if (should_write == true
+&& write(client_fd, SERVICE_220, strlen(SERVICE_220)) == -1) {
         fprintf(stderr, "Write failed.\n");
         return NULL;
     }

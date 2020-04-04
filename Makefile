@@ -44,6 +44,7 @@ SRC_PATH	=	$(ROOT_PATH)$(SRC_NAME)
 COMMANDS_PATH	=	ftp_commands
 
 SRC	=	accept.c	\
+		client_utils.c	\
 		const_values.c	\
 		data_channel_utils.c	\
 		directory.c	\
@@ -62,7 +63,12 @@ SRC	=	accept.c	\
 		$(COMMANDS_PATH)/quit.c	\
 		$(COMMANDS_PATH)/retr.c	\
 		$(COMMANDS_PATH)/cwd.c	\
-		$(COMMANDS_PATH)/cdup.c
+		$(COMMANDS_PATH)/cdup.c	\
+		$(COMMANDS_PATH)/dele.c	\
+		$(COMMANDS_PATH)/stor.c	\
+		$(COMMANDS_PATH)/pwd.c	\
+		$(COMMANDS_PATH)/noop.c	\
+		$(COMMANDS_PATH)/help.c	\
 
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c

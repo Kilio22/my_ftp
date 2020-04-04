@@ -7,13 +7,25 @@
 
 #include "my_ftp.h"
 
-int manage_server(my_ftp_t *my_ftp)
+void manage_other_servers(client_t *client)
 {
-    client_t *client = accept_client(my_ftp->main_server, my_ftp->root_path);
+    client_t *new_client = accept_client(&client->data_channel.server,
+"", false);
 
-    if (client == NULL) {
-        return -1;
+    if (new_client == NULL) {
+        return;
     }
+    client->data_channel.fd = new_client->socket.fd;
+    free(new_client);
+}
+
+int manage_main_server(my_ftp_t *my_ftp)
+{
+    client_t *client = accept_client(my_ftp->main_server,
+my_ftp->root_path, true);
+
+    if (client == NULL)
+        return -1;
     if (my_ftp->current_idx < FD_SETSIZE) {
         my_ftp->clients[my_ftp->current_idx++] = client;
     } else {

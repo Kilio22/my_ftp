@@ -103,11 +103,13 @@ extern const char TRANSFER_ABORT[];
 socket_t *init_server(in_port_t port);
 int init_ftp(my_ftp_t *my_ftp, char *port, char *real_path);
 int poll_sockets(my_ftp_t *my_ftp);
-client_t *accept_client(socket_t *main_server, char *root_path);
+client_t *accept_client(socket_t *main_server, char *root_path,
+bool should_write);
 int server_loop(my_ftp_t *my_ftp);
 char *get_client_input(client_t *client);
 int manage_client(my_ftp_t *my_ftp, client_t *client);
-int manage_server(my_ftp_t *my_ftp);
+int manage_main_server(my_ftp_t *my_ftp);
+void manage_other_servers(client_t *client);
 int create_socket(void);
 int create_server(in_port_t port);
 
@@ -120,6 +122,7 @@ void close_data_channel(client_t *client);
 bool has_valid_creditentials(client_t *client, bool should_send_msg);
 my_ftp_t *get_ftp(my_ftp_t *ftp);
 char *concat_paths(char *cwd, char *filepath, bool need_slash);
+char *concat_strings(char *str1, char *str2);
 
 // commands
 void port(my_ftp_t *my_ftp, client_t *client, char **params);
@@ -130,6 +133,11 @@ void user(my_ftp_t *my_ftp, client_t *client, char **params);
 void quit(my_ftp_t *my_ftp, client_t *client, char **params);
 void cwd(my_ftp_t *my_ftp, client_t *client, char **params);
 void cdup(my_ftp_t *my_ftp, client_t *client, char **params);
+void dele(my_ftp_t *my_ftp, client_t *client, char **params);
+void pwd(my_ftp_t *my_ftp, client_t *client, char **params);
+void stor(my_ftp_t *my_ftp, client_t *client, char **params);
+void help(my_ftp_t *my_ftp, client_t *client, char **params);
+void noop(my_ftp_t *my_ftp, client_t *client, char **params);
 
 // directory
 bool is_dir(char *path);

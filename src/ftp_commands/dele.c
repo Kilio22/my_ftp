@@ -12,7 +12,7 @@ char **params)
 {
     char *full_path = NULL;
 
-    if (has_valid_creditentials(client, true) == false)
+    if (client->is_connected == false)
         return;
     if (params[1][0] == '/') {
         full_path = concat_paths(client->cwd, &params[1][1], false);

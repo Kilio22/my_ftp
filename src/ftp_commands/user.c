@@ -10,7 +10,7 @@
 void user(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
 char **params)
 {
-    if (client->username != NULL && client->password != NULL) {
+    if (client->is_connected == true) {
         write(client->socket.fd, WRONG_SEQUENCE, strlen(WRONG_SEQUENCE));
         return;
     }

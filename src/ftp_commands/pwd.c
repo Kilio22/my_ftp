@@ -12,7 +12,7 @@ char **params __attribute__((unused)))
 {
     char *to_send = NULL;
 
-    if (has_valid_creditentials(client, true) == false)
+    if (client->is_connected == false)
         return;
     to_send = strdup(&client->cwd[strlen(my_ftp->root_path) - 1]);
     to_send = realloc(to_send, strlen(to_send) + 3);

@@ -63,7 +63,7 @@ char **params)
     int fd = 0;
     pid_t pid;
 
-    if (has_valid_creditentials(client, true) == false)
+    if (client->is_connected == false)
         return;
     fd = get_file_fd(client, params[1]);
     if (fd == -1)

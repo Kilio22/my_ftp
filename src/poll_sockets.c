@@ -31,6 +31,7 @@ static void reset_set(my_ftp_t *my_ftp)
     for (size_t i = 0; i < my_ftp->current_idx; i++) {
         FD_SET(my_ftp->clients[i]->socket.fd, &my_ftp->r_set);
         if (my_ftp->clients[i]->data_channel.server.fd != 0 &&
+my_ftp->clients[i]->data_channel.fd == 0 &&
 my_ftp->clients[i]->data_channel.status == PASSIVE) {
             FD_SET(my_ftp->clients[i]->data_channel.server.fd, &my_ftp->r_set);
         }

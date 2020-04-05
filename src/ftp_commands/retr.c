@@ -26,7 +26,8 @@ static void handle_child(client_t *client, int fd)
 {
     write(client->socket.fd, DATA_150, strlen(DATA_150));
     if (connect_to_data_channel(client) == -1) {
-        write(fd, CANNOT_OPEN_DATA_CHAN, strlen(CANNOT_OPEN_DATA_CHAN));
+        write(client->socket.fd,
+CANNOT_OPEN_DATA_CHAN, strlen(CANNOT_OPEN_DATA_CHAN));
         exit(0);
     }
     send_file(client, fd);
@@ -63,7 +64,7 @@ char **params)
     int fd = 0;
     pid_t pid;
 
-    if (client->is_connected == false)
+    if (is_connected(client) == false)
         return;
     fd = get_file_fd(client, params[1]);
     if (fd == -1)
@@ -72,13 +73,11 @@ char **params)
         return;
     pid = fork();
     if (pid == -1) {
-        write(fd, CANNOT_OPEN_DATA_CHAN, strlen(CANNOT_OPEN_DATA_CHAN));
+        write(client->socket.fd,
+CANNOT_OPEN_DATA_CHAN, strlen(CANNOT_OPEN_DATA_CHAN));
         return;
-    } else if (pid == 0) {
+    } else if (pid == 0)
         handle_child(client, fd);
-    }
-    if (close(fd) == -1) {
-        printf("CLOSE FAILED\n");
-    }
+    close(fd);
     close_data_channel(client);
 }

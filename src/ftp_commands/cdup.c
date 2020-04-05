@@ -12,7 +12,7 @@ char **params __attribute__((unused)))
 {
     char *new_path = NULL;
 
-    if (client->is_connected == false)
+    if (is_connected(client) == false)
         return;
     new_path = concat_paths(client->cwd, "../", true);
     if (new_path == NULL) {

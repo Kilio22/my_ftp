@@ -21,6 +21,7 @@ static const struct command_s command_array[] = {
     {"STOR", &stor, 2},
     {"HELP", &help, -1},
     {"NOOP", &noop, 1},
+    {"LIST", &list, -1},
     {NULL, NULL, 0}
 };
 
@@ -71,7 +72,6 @@ int manage_client(my_ftp_t *my_ftp, client_t *client)
         free(buffer);
         return 0;
     }
-    printf("[%s]\n", buffer);
     params = parse_client_input(buffer);
     exec_command(my_ftp, client, params);
     for (size_t i = 0; params[i]; i++) {

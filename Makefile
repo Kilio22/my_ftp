@@ -69,6 +69,7 @@ SRC	=	accept.c	\
 		$(COMMANDS_PATH)/pwd.c	\
 		$(COMMANDS_PATH)/noop.c	\
 		$(COMMANDS_PATH)/help.c	\
+		$(COMMANDS_PATH)/list.c	\
 
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c

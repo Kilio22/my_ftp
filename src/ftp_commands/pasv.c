@@ -29,7 +29,7 @@ char **params __attribute__((unused)))
     int server_socket = 0;
     socklen_t size = sizeof(struct sockaddr_in);
 
-    if (client->is_connected == false)
+    if (is_connected(client) == false)
         return;
     close_data_channel(client);
     server_socket = create_server(1049);

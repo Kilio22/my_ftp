@@ -10,6 +10,15 @@
 static const char default_user[] = "Anonymous";
 static const char default_password[] = "";
 
+bool is_connected(client_t *client)
+{
+    if (client->is_connected == false) {
+        write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
+        return false;
+    }
+    return true;
+}
+
 bool has_valid_creditentials(client_t *client, bool should_send_msg)
 {
     if (client->password == NULL || client->username == NULL) {

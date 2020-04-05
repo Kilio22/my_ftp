@@ -40,7 +40,7 @@ char **params)
 {
     int infos[6] = {-1};
 
-    if (client->is_connected == false)
+    if (is_connected(client) == false)
         return;
     close_data_channel(client);
     if (count_char(params[1], ',') != 5) {

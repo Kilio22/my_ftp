@@ -123,6 +123,7 @@ bool has_valid_creditentials(client_t *client, bool should_send_msg);
 my_ftp_t *get_ftp(my_ftp_t *ftp);
 char *concat_paths(char *cwd, char *filepath, bool need_slash);
 char *concat_strings(char *str1, char *str2);
+bool is_connected(client_t *client);
 
 // commands
 void port(my_ftp_t *my_ftp, client_t *client, char **params);
@@ -138,6 +139,7 @@ void pwd(my_ftp_t *my_ftp, client_t *client, char **params);
 void stor(my_ftp_t *my_ftp, client_t *client, char **params);
 void help(my_ftp_t *my_ftp, client_t *client, char **params);
 void noop(my_ftp_t *my_ftp, client_t *client, char **params);
+void list(my_ftp_t *my_ftp, client_t *client, char **params);
 
 // directory
 bool is_dir(char *path);

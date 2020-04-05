@@ -23,7 +23,7 @@ void cwd(my_ftp_t *my_ftp, client_t *client, char **params)
 {
     char *new_path = NULL;
 
-    if (client->is_connected == false)
+    if (is_connected(client) == false)
         return;
     if (params[1][0] == '/') {
         new_path = handle_path(client, &params[1][1]);

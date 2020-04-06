@@ -55,11 +55,9 @@ this).\r\n"},
 void help(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
 char **params __attribute__((unused)))
 {
-    if (my_array_len(params) > 2) {
-        write(client->socket.fd, SYNTAX_ERROR, strlen(SYNTAX_ERROR));
+    if (check_params_len(params, client->socket.fd, 2) == false)
         return;
-    }
-    if (my_array_len(params) == 1) {
+    if (params[1] == NULL) {
         write(client->socket.fd, CMD_HELP, strlen(CMD_HELP));
         return;
     }

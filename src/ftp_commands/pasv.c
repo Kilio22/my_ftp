@@ -20,7 +20,6 @@ static void init_data_channel(client_t *client, int server_socket)
 ip_numbers[1], ip_numbers[2], ip_numbers[3], port / 256, port % 256);
     client->data_channel.status = PASSIVE;
     client->data_channel.server.fd = server_socket;
-    client->data_channel.server.is_triggered = false;
 }
 
 void pasv(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,

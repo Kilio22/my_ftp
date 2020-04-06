@@ -53,7 +53,6 @@ SRC	=	accept.c	\
 		init_server.c	\
 		manage_client.c	\
 		manage_server.c	\
-		poll_sockets.c	\
 		server_loop.c	\
 		utils.c	\
 		$(COMMANDS_PATH)/port.c	\

@@ -42,6 +42,7 @@ int main(int ac, char **av)
     if (init_ftp(&my_ftp, av[1], real_path) == -1)
         return 84;
     get_ftp(&my_ftp);
-    server_loop(&my_ftp);
+    if (server_loop(&my_ftp) == -1)
+        return 84;
     return 0;
 }

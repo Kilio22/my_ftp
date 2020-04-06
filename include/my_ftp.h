@@ -41,7 +41,6 @@ struct socket_s
 {
     struct sockaddr_in sock_in;
     int fd;
-    bool is_triggered;
 };
 
 struct data_channel_s
@@ -102,7 +101,6 @@ extern const char TRANSFER_ABORT[];
 
 socket_t *init_server(in_port_t port);
 int init_ftp(my_ftp_t *my_ftp, char *port, char *real_path);
-int poll_sockets(my_ftp_t *my_ftp);
 client_t *accept_client(socket_t *main_server, char *root_path,
 bool should_write);
 int server_loop(my_ftp_t *my_ftp);
@@ -124,6 +122,7 @@ my_ftp_t *get_ftp(my_ftp_t *ftp);
 char *concat_paths(char *cwd, char *filepath, bool need_slash);
 char *concat_strings(char *str1, char *str2);
 bool is_connected(client_t *client);
+bool check_params_len(char **params, int fd, int nb_params);
 
 // commands
 void port(my_ftp_t *my_ftp, client_t *client, char **params);

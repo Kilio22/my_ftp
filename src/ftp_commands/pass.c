@@ -10,10 +10,8 @@
 void pass(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
 char **params)
 {
-    if (my_array_len(params) > 2) {
-        write(client->socket.fd, SYNTAX_ERROR, strlen(SYNTAX_ERROR));
+    if (check_params_len(params, client->socket.fd, 2) == false)
         return;
-    }
     if (client->username == NULL || client->is_connected == true) {
         write(client->socket.fd, WRONG_SEQUENCE, strlen(WRONG_SEQUENCE));
         return;

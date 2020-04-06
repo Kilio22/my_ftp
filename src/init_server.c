@@ -56,6 +56,5 @@ socket_t *init_server(in_port_t port)
     if (fd == -1)
         return NULL;
     server_socket->fd = fd;
-    server_socket->is_triggered = false;
     return server_socket;
 }

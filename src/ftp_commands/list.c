@@ -71,8 +71,6 @@ char **params)
 {
     pid_t pid = 0;
 
-    if (check_params_len(params, client->socket.fd, 2) == false)
-        return;
     if (is_connected(client) == false)
         return;
     if (is_data_channel_open(&client->data_channel, client->socket.fd) == false)

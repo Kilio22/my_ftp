@@ -33,7 +33,8 @@ void cwd(my_ftp_t *my_ftp, client_t *client, char **params)
     if (new_path == NULL)
         return;
     if (strncmp(my_ftp->root_path, new_path, strlen(my_ftp->root_path)) != 0) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ACTION_250, strlen(ACTION_250));
+        free(new_path);
         return;
     }
     free(client->cwd);

@@ -21,7 +21,7 @@ successful (for example, file transfer or file abort).\r\n";
 const char PASSIVE_227[] = "227 Entering Passive Mode (%d,%d,%d,%d,%d,%d).\r\n";
 const char LOGIN_230[] = "230 User logged in, proceed.\r\n";
 const char ACTION_250[] = "250 Requested file action okay, completed.\r\n";
-const char PATHNAME_257[] = "257 \"PATHNAME\" created.\r\n";
+const char PATHNAME_257[] = "257 \"%s\"\r\n";
 const char LOGIN_331[] = "331 User name okay, need password.\r\n";
 const char LOGIN_332[] = "332 Need account for login.\r\n";
 const char TRANSFER_ABORT[] = "426 Connection closed; transfer aborted.\r\n";

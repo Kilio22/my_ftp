@@ -25,6 +25,6 @@ char **params __attribute__((unused)))
         to_send[strlen(to_send) - 1] = '\r';
         to_send[strlen(to_send)] = '\n';
     }
-    write(client->socket.fd, to_send, strlen(to_send));
+    dprintf(client->socket.fd, PATHNAME_257, to_send);
     free(to_send);
 }

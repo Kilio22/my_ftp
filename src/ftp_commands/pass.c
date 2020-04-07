@@ -10,8 +10,6 @@
 void pass(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
 char **params)
 {
-    if (check_params_len(params, client->socket.fd, 2) == false)
-        return;
     if (client->username == NULL || client->is_connected == true) {
         write(client->socket.fd, WRONG_SEQUENCE, strlen(WRONG_SEQUENCE));
         return;
@@ -23,6 +21,8 @@ char **params)
         return;
     } else {
         free(client->password);
+        free(client->username);
+        client->username = NULL;
         client->password = NULL;
     }
 }

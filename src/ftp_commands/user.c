@@ -18,6 +18,10 @@ char **params)
         free(client->username);
         client->username = NULL;
     }
+    if (params[1] == NULL) {
+        write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
+        return;
+    }
     client->username = strdup(params[1]);
     write(client->socket.fd, LOGIN_331, strlen(LOGIN_331));
 }

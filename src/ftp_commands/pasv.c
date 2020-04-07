@@ -31,7 +31,7 @@ char **params __attribute__((unused)))
     if (is_connected(client) == false)
         return;
     close_data_channel(client);
-    server_socket = create_server(1049);
+    server_socket = create_server(0);
     if (server_socket == -1) {
         write(client->socket.fd, CANNOT_OPEN_DATA_CHAN,
 strlen(CANNOT_OPEN_DATA_CHAN));

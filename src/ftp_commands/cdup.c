@@ -20,10 +20,11 @@ char **params __attribute__((unused)))
         return;
     }
     if (strncmp(my_ftp->root_path, new_path, strlen(my_ftp->root_path)) != 0) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ACTION_250, strlen(ACTION_250));
         free(new_path);
         return;
     }
     free(client->cwd);
     client->cwd = new_path;
+    write(client->socket.fd, ACTION_250, strlen(ACTION_250));
 }

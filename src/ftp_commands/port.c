@@ -31,7 +31,7 @@ static void init_data_channel(client_t *client, int infos[6])
     client->data_channel.server.sock_in.sin_family = AF_INET;
     client->data_channel.server.sock_in.sin_port =
 htons((infos[4] * 256) + infos[5]);
-    write(client->socket.fd, CMD_200, strlen(CMD_200));
+    dprintf(client->socket.fd, CMD_200, "PORT");
     client->data_channel.status = ACTIVE;
 }
 
@@ -40,8 +40,6 @@ char **params)
 {
     int infos[6] = {-1};
 
-    if (is_connected(client) == false)
-        return;
     close_data_channel(client);
     if (count_char(params[1], ',') != 5) {
         write(client->socket.fd, SYNTAX_ERROR, strlen(SYNTAX_ERROR));

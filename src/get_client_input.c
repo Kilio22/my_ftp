@@ -40,10 +40,12 @@ char *get_client_input(client_t *client)
     }
     concat_buffer(client, buff, nread);
     tmp = strstr(client->buffer, "\n");
-    if (tmp == NULL) {
+    if (tmp == NULL)
         return strdup("");
-    }
     *tmp = '\0';
+    tmp = strchr(client->buffer, '\r');
+    if (tmp != NULL)
+        *tmp = '\0';
     tmp = client->buffer;
     client->buffer = NULL;
     return tmp;

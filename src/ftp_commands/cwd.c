@@ -23,21 +23,15 @@ void cwd(my_ftp_t *my_ftp, client_t *client, char **params)
 {
     char *new_path = NULL;
 
-    if (is_connected(client) == false)
-        return;
-    if (params[1][0] == '/') {
+    if (params[1][0] == '/')
         new_path = handle_path(client, &params[1][1]);
-    } else {
+    else
         new_path = handle_path(client, params[1]);
-    }
     if (new_path == NULL)
         return;
-    if (strncmp(my_ftp->root_path, new_path, strlen(my_ftp->root_path)) != 0) {
-        write(client->socket.fd, ACTION_250, strlen(ACTION_250));
-        free(new_path);
-        return;
+    if (strncmp(my_ftp->root_path, new_path, strlen(my_ftp->root_path)) == 0) {
+        free(client->cwd);
+        client->cwd = new_path;
     }
-    free(client->cwd);
-    client->cwd = new_path;
     write(client->socket.fd, ACTION_250, strlen(ACTION_250));
 }

@@ -28,8 +28,6 @@ char **params __attribute__((unused)))
     int server_socket = 0;
     socklen_t size = sizeof(struct sockaddr_in);
 
-    if (is_connected(client) == false)
-        return;
     close_data_channel(client);
     server_socket = create_server(0);
     if (server_socket == -1) {
@@ -37,8 +35,6 @@ char **params __attribute__((unused)))
 strlen(CANNOT_OPEN_DATA_CHAN));
         return;
     }
-    getsockname(server_socket,
-(struct sockaddr *)&client->data_channel.server.sock_in, &size);
     init_data_channel(client, server_socket);
     return;
 }

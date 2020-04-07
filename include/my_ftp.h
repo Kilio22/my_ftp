@@ -75,6 +75,7 @@ struct command_s
     char *name;
     void (*ptr)(my_ftp_t *my_ftp, client_t *client, char **params);
     ssize_t params_nb;
+    bool to_be_connected;
 };
 
 extern const char SERVICE_READY[];

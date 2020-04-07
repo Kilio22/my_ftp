@@ -71,8 +71,6 @@ char **params)
 {
     pid_t pid = 0;
 
-    if (is_connected(client) == false)
-        return;
     if (is_data_channel_open(&client->data_channel, client->socket.fd) == false)
         return;
     pid = fork();

@@ -41,11 +41,14 @@ static int get_file_fd(client_t *client, char *path)
     char *filepath = NULL;
     int fd = 0;
 
-    if (path[0] == '/') {
-        filepath = concat_paths(client->cwd, &path[1], false);
-    } else {
-        filepath = concat_paths(client->cwd, path, false);
+    if (path == NULL) {
+        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        return -1;
     }
+    if (path[0] == '/')
+        filepath = concat_paths(client->cwd, &path[1], false);
+    else
+        filepath = concat_paths(client->cwd, path, false);
     if (filepath == NULL) {
         write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
         return -1;
@@ -64,12 +67,10 @@ char **params)
     int fd = 0;
     pid_t pid;
 
-    if (is_connected(client) == false)
+    if (is_data_channel_open(&client->data_channel, client->socket.fd) == false)
         return;
     fd = get_file_fd(client, params[1]);
     if (fd == -1)
-        return;
-    if (is_data_channel_open(&client->data_channel, client->socket.fd) == false)
         return;
     pid = fork();
     if (pid == -1) {

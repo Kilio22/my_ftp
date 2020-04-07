@@ -8,21 +8,21 @@
 #include "my_ftp.h"
 
 static const struct command_s command_array[] = {
-    {"PORT", &port, 2},
-    {"PASV", &pasv, 1},
-    {"RETR", &retr, 2},
-    {"PASS", &pass, 1},
-    {"USER", &user, 1},
-    {"QUIT", &quit, 1},
-    {"CWD", &cwd, 2},
-    {"CDUP", &cdup, 1},
-    {"PWD", &pwd, 1},
-    {"DELE", &dele, 2},
-    {"STOR", &stor, 2},
-    {"HELP", &help, -1},
-    {"NOOP", &noop, 1},
-    {"LIST", &list, -1},
-    {NULL, NULL, 0}
+    {"PORT", &port, 2, true},
+    {"PASV", &pasv, 1, true},
+    {"RETR", &retr, 1, true},
+    {"PASS", &pass, 1, false},
+    {"USER", &user, 1, false},
+    {"QUIT", &quit, 1, false},
+    {"CWD", &cwd, 2, true},
+    {"CDUP", &cdup, 1, true},
+    {"PWD", &pwd, 1, true},
+    {"DELE", &dele, 2, true},
+    {"STOR", &stor, 1, true},
+    {"HELP", &help, 1, true},
+    {"NOOP", &noop, 1, true},
+    {"LIST", &list, 1, true},
+    {NULL, NULL, 0, false}
 };
 
 static char **parse_client_input(char *buffer)
@@ -43,17 +43,21 @@ static char **parse_client_input(char *buffer)
 
 static void exec_command(my_ftp_t *my_ftp, client_t *client, char **params)
 {
-    if (my_array_len(params) < 1) {
-        write(client->socket.fd, SYNTAX_ERROR, strlen(SYNTAX_ERROR));
-        return;
-    }
     for (size_t i = 0; command_array[i].name != NULL; i++) {
         if (strcmp(command_array[i].name, params[0]) == 0 &&
 (my_array_len(params) >= command_array[i].params_nb ||
-command_array[i].params_nb == -1)) {
+command_array[i].params_nb == -1) && (command_array[i].to_be_connected == false
+|| (command_array[i].to_be_connected == true && client->is_connected == true))) {
             return command_array[i].ptr(my_ftp, client, params);
-        } else if (strcmp(command_array[i].name, params[0]) == 0) {
-            write(client->socket.fd, SYNTAX_ERROR, strlen(SYNTAX_ERROR));
+        }
+        if (strcmp(command_array[i].name, params[0]) == 0 &&
+command_array[i].to_be_connected == true && client->is_connected == false) {
+            write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
+            return;
+        }
+        if (strcmp(command_array[i].name, params[0]) == 0
+&& my_array_len(params) < command_array[i].params_nb) {
+            write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
             return;
         }
     }
@@ -73,7 +77,8 @@ int manage_client(my_ftp_t *my_ftp, client_t *client)
         return 0;
     }
     params = parse_client_input(buffer);
-    exec_command(my_ftp, client, params);
+    if (my_array_len(params) > 0)
+        exec_command(my_ftp, client, params);
     for (size_t i = 0; params[i]; i++) {
         free(params[i]);
     }

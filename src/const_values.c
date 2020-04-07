@@ -10,7 +10,7 @@ const char DATA_125[] = "125 Data connection already open; \
 transfer starting.\r\n";
 const char DATA_150[] = "150 File status okay; about to open \
 data connection.\r\n";
-const char CMD_200[] = "200 Command okay.\r\n";
+const char CMD_200[] = "200 %s okay.\r\n";
 const char CMD_HELP[] = "214 Help:\nAvailable commands: USER, PASS, RETR, STOR,\
  PASV, PORT, PWD, CWD, CDUP, LIST, QUIT, DELE, HELP, NOOP\r\n";
 const char SERVICE_220[] = "220 Service ready for new user.\r\n";

@@ -12,19 +12,8 @@ char **params __attribute__((unused)))
 {
     char *to_send = NULL;
 
-    if (is_connected(client) == false)
-        return;
     to_send = strdup(&client->cwd[strlen(my_ftp->root_path) - 1]);
     to_send = realloc(to_send, strlen(to_send) + 3);
-    if (strcmp(to_send, "/") == 0) {
-        to_send[strlen(to_send) + 2] = '\0';
-        to_send[strlen(to_send) + 1] = '\n';
-        to_send[strlen(to_send)] = '\r';
-    } else {
-        to_send[strlen(to_send) + 1] = '\0';
-        to_send[strlen(to_send) - 1] = '\r';
-        to_send[strlen(to_send)] = '\n';
-    }
     dprintf(client->socket.fd, PATHNAME_257, to_send);
     free(to_send);
 }

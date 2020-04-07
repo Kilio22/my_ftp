@@ -12,8 +12,6 @@ char **params)
 {
     char *full_path = NULL;
 
-    if (is_connected(client) == false)
-        return;
     if (params[1][0] == '/') {
         full_path = concat_paths(client->cwd, &params[1][1], false);
     } else {
@@ -21,10 +19,10 @@ char **params)
     }
     if (full_path == NULL) {
         write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        return;
     }
-    if (remove(full_path) == -1) {
+    if (remove(full_path) == -1)
         write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
-    } else {
+    else
         write(client->socket.fd, ACTION_250, strlen(ACTION_250));
-    }
 }

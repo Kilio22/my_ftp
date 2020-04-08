@@ -25,7 +25,6 @@ int manage_main_server(my_ftp_t *my_ftp)
 my_ftp->root_path, true);
     size_t nb_clients = get_clients_nb(my_ftp->clients);
 
-    printf("%ld\n", nb_clients);
     if (client == NULL)
         return -1;
     if (nb_clients < FD_SETSIZE) {

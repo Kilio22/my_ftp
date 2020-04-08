@@ -5,9 +5,6 @@
 ** const_values
 */
 
-const char SERVICE_READY[] = "120 Service ready in nnn minutes.\r\n";
-const char DATA_125[] = "125 Data connection already open; \
-transfer starting.\r\n";
 const char DATA_150[] = "150 File status okay; about to open \
 data connection.\r\n";
 const char CMD_200[] = "200 %s okay.\r\n";
@@ -23,7 +20,6 @@ const char LOGIN_230[] = "230 User logged in, proceed.\r\n";
 const char ACTION_250[] = "250 Requested file action okay, completed.\r\n";
 const char PATHNAME_257[] = "257 \"%s\"\r\n";
 const char LOGIN_331[] = "331 User name okay, need password.\r\n";
-const char LOGIN_332[] = "332 Need account for login.\r\n";
 const char TRANSFER_ABORT[] = "426 Connection closed; transfer aborted.\r\n";
 const char CANNOT_OPEN_DATA_CHAN[] = "425 Can't open data connection.\r\n";
 const char NOT_LOGGED_530[] = "530 Not logged in.\r\n";

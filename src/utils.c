@@ -36,12 +36,3 @@ my_ftp_t *get_ftp(my_ftp_t *ftp)
     store_ftp = ftp;
     return ftp;
 }
-
-bool check_params_len(char **params, int fd, int nb_params)
-{
-    if (my_array_len(params) < nb_params) {
-        write(fd, SYNTAX_ERROR, strlen(SYNTAX_ERROR));
-        return false;
-    }
-    return true;
-}

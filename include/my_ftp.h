@@ -77,8 +77,6 @@ struct command_s
     bool to_be_connected;
 };
 
-extern const char SERVICE_READY[];
-extern const char DATA_125[];
 extern const char DATA_150[];
 extern const char CMD_200[];
 extern const char CMD_HELP[];
@@ -90,7 +88,6 @@ extern const char LOGIN_230[];
 extern const char ACTION_250[];
 extern const char PATHNAME_257[];
 extern const char LOGIN_331[];
-extern const char LOGIN_332[];
 extern const char NOT_LOGGED_530[];
 extern const char BAD_COMMAND_500[];
 extern const char WRONG_SEQUENCE[];
@@ -123,7 +120,6 @@ my_ftp_t *get_ftp(my_ftp_t *ftp);
 char *concat_paths(char *cwd, char *filepath, bool need_slash);
 char *concat_strings(char *str1, char *str2);
 bool is_connected(client_t *client);
-bool check_params_len(char **params, int fd, int nb_params);
 size_t get_clients_nb(client_t **clients);
 
 // commands

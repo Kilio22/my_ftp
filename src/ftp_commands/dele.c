@@ -7,8 +7,8 @@
 
 #include "my_ftp.h"
 
-void dele(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
-char **params)
+void dele(client_t *client, char **params,
+char *root_path __attribute__((unused)))
 {
     char *full_path = NULL;
 

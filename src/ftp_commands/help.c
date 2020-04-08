@@ -52,8 +52,8 @@ this).\r\n"},
     {NULL, NULL}
 };
 
-void help(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
-char **params __attribute__((unused)))
+void help(client_t *client,
+char **params __attribute__((unused)), char *root_path __attribute__((unused)))
 {
     if (params[1] == NULL) {
         write(client->socket.fd, CMD_HELP, strlen(CMD_HELP));

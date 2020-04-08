@@ -11,14 +11,14 @@
 static void my_sa_handler(int sig)
 {
     my_ftp_t *my_ftp = NULL;
+    size_t len = 0;
 
     if (sig != SIGINT)
         return;
     my_ftp = get_ftp(NULL);
-    for (size_t i = 0; i < my_ftp->current_idx; i++) {
-        close(my_ftp->clients[i]->socket.fd);
-        free(my_ftp->clients[i]->password);
-        free(my_ftp->clients[i]->username);
+    len = get_clients_nb(my_ftp->clients);
+    for (size_t i = 0; i < len; i++) {
+        close_client_data(my_ftp->clients[i]);
         free(my_ftp->clients[i]);
     }
     free(my_ftp->clients);
@@ -30,11 +30,12 @@ static void my_sa_handler(int sig)
 
 static void manage_clients(my_ftp_t *my_ftp, int fd)
 {
-    for (size_t i = 0; i < my_ftp->current_idx; i++) {
+    for (size_t i = 0; my_ftp->clients[i]; i++) {
         if (my_ftp->clients[i] != NULL && my_ftp->clients[i]->socket.fd == fd)
-            manage_client(my_ftp, my_ftp->clients[i]);
-        else if (my_ftp->clients[i]->data_channel.server.fd == fd)
-            manage_other_servers(my_ftp->clients[i]);
+            return manage_client(my_ftp->clients[i], my_ftp->root_path);
+        if (my_ftp->clients[i] != NULL &&
+my_ftp->clients[i]->data_channel.server.fd == fd)
+            return manage_other_servers(my_ftp->clients[i]);
     }
 }
 
@@ -42,7 +43,7 @@ static void reset_set(my_ftp_t *my_ftp)
 {
     FD_ZERO(&my_ftp->r_set);
     FD_SET(my_ftp->main_server->fd, &my_ftp->r_set);
-    for (size_t i = 0; i < my_ftp->current_idx; i++) {
+    for (size_t i = 0; my_ftp->clients[i]; i++) {
         FD_SET(my_ftp->clients[i]->socket.fd, &my_ftp->r_set);
         if (my_ftp->clients[i]->data_channel.status == PASSIVE &&
 my_ftp->clients[i]->data_channel.server.fd != 0 &&

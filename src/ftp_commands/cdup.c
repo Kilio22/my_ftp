@@ -7,12 +7,12 @@
 
 #include "my_ftp.h"
 
-void cdup(my_ftp_t *my_ftp, client_t *client,
-char **params __attribute__((unused)))
+void cdup(client_t *client, char **params __attribute__((unused)),
+char *root_path)
 {
     char *new_path = NULL;
 
-    if (strcmp(my_ftp->root_path, client->cwd) == 0) {
+    if (strcmp(root_path, client->cwd) == 0) {
         write(client->socket.fd, ACTION_250, strlen(ACTION_250));
         return;
     }

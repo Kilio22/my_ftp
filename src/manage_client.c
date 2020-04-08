@@ -41,14 +41,14 @@ static char **parse_client_input(char *buffer)
     return array;
 }
 
-static void exec_command(my_ftp_t *my_ftp, client_t *client, char **params)
+static void exec_command(client_t *client, char **params, char *root_path)
 {
     for (size_t i = 0; command_array[i].name != NULL; i++) {
         if (strcmp(command_array[i].name, params[0]) == 0 &&
 (my_array_len(params) >= command_array[i].params_nb ||
 command_array[i].params_nb == -1) && (command_array[i].to_be_connected == false
 || (command_array[i].to_be_connected == true && client->is_connected == true))) {
-            return command_array[i].ptr(my_ftp, client, params);
+            return command_array[i].ptr(client, params, root_path);
         }
         if (strcmp(command_array[i].name, params[0]) == 0 &&
 command_array[i].to_be_connected == true && client->is_connected == false) {
@@ -64,25 +64,25 @@ command_array[i].to_be_connected == true && client->is_connected == false) {
     write(client->socket.fd, BAD_COMMAND_500, strlen(BAD_COMMAND_500));
 }
 
-int manage_client(my_ftp_t *my_ftp, client_t *client)
+void manage_client(client_t *client, char *root_path)
 {
     char *buffer = get_client_input(client);
     char **params = NULL;
 
     if (buffer == NULL) {
-        remove_client(my_ftp, client);
-        return 0;
-    } else if (strcmp(buffer, "") == 0) {
+        remove_client(client);
+        return;
+    }
+    if (strcmp(buffer, "") == 0) {
         free(buffer);
-        return 0;
+        return;
     }
     params = parse_client_input(buffer);
     if (my_array_len(params) > 0)
-        exec_command(my_ftp, client, params);
+        exec_command(client, params, root_path);
     for (size_t i = 0; params[i]; i++) {
         free(params[i]);
     }
     free(params);
     free(buffer);
-    return 0;
 }

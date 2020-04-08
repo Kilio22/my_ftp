@@ -54,7 +54,6 @@ struct my_ftp_s
 {
     client_t **clients;
     socket_t *main_server;
-    size_t current_idx;
     fd_set r_set;
     char *root_path;
 };
@@ -73,7 +72,7 @@ struct client_s
 struct command_s
 {
     char *name;
-    void (*ptr)(my_ftp_t *my_ftp, client_t *client, char **params);
+    void (*ptr)(client_t *, char **, char *);
     ssize_t params_nb;
     bool to_be_connected;
 };
@@ -106,14 +105,15 @@ client_t *accept_client(socket_t *main_server, char *root_path,
 bool should_write);
 int server_loop(my_ftp_t *my_ftp);
 char *get_client_input(client_t *client);
-int manage_client(my_ftp_t *my_ftp, client_t *client);
+void manage_client(client_t *client, char *root_path);
 int manage_main_server(my_ftp_t *my_ftp);
 void manage_other_servers(client_t *client);
 int create_socket(void);
 int create_server(in_port_t port);
 
 // utils
-void remove_client(my_ftp_t *my_ftp, client_t *client);
+void remove_client(client_t *client);
+void close_client_data(client_t *client);
 ssize_t my_array_len(char **array);
 bool is_data_channel_open(data_channel_t *data_channel, int fd);
 int connect_to_data_channel(client_t *client);
@@ -124,22 +124,23 @@ char *concat_paths(char *cwd, char *filepath, bool need_slash);
 char *concat_strings(char *str1, char *str2);
 bool is_connected(client_t *client);
 bool check_params_len(char **params, int fd, int nb_params);
+size_t get_clients_nb(client_t **clients);
 
 // commands
-void port(my_ftp_t *my_ftp, client_t *client, char **params);
-void retr(my_ftp_t *my_ftp, client_t *client, char **params);
-void pasv(my_ftp_t *my_ftp, client_t *client, char **params);
-void pass(my_ftp_t *my_ftp, client_t *client, char **params);
-void user(my_ftp_t *my_ftp, client_t *client, char **params);
-void quit(my_ftp_t *my_ftp, client_t *client, char **params);
-void cwd(my_ftp_t *my_ftp, client_t *client, char **params);
-void cdup(my_ftp_t *my_ftp, client_t *client, char **params);
-void dele(my_ftp_t *my_ftp, client_t *client, char **params);
-void pwd(my_ftp_t *my_ftp, client_t *client, char **params);
-void stor(my_ftp_t *my_ftp, client_t *client, char **params);
-void help(my_ftp_t *my_ftp, client_t *client, char **params);
-void noop(my_ftp_t *my_ftp, client_t *client, char **params);
-void list(my_ftp_t *my_ftp, client_t *client, char **params);
+void port(client_t *client, char **params, char *root_path);
+void retr(client_t *client, char **params, char *root_path);
+void pasv(client_t *client, char **params, char *root_path);
+void pass(client_t *client, char **params, char *root_path);
+void user(client_t *client, char **params, char *root_path);
+void quit(client_t *client, char **params, char *root_path);
+void cwd(client_t *client, char **params, char *root_path);
+void cdup(client_t *client, char **params, char *root_path);
+void dele(client_t *client, char **params, char *root_path);
+void pwd(client_t *client, char **params, char *root_path);
+void stor(client_t *client, char **params, char *root_path);
+void help(client_t *client, char **params, char *root_path);
+void noop(client_t *client, char **params, char *root_path);
+void list(client_t *client, char **params, char *root_path);
 
 // directory
 bool is_dir(char *path);

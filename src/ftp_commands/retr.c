@@ -61,8 +61,8 @@ static int get_file_fd(client_t *client, char *path)
     return fd;
 }
 
-void retr(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
-char **params)
+void retr(client_t *client,
+char **params, char *root_path __attribute__((unused)))
 {
     int fd = 0;
     pid_t pid;

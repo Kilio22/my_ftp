@@ -19,7 +19,7 @@ static char *handle_path(client_t *client, char *given_path)
     return path;
 }
 
-void cwd(my_ftp_t *my_ftp, client_t *client, char **params)
+void cwd(client_t *client, char **params, char *root_path)
 {
     char *new_path = NULL;
 
@@ -29,7 +29,7 @@ void cwd(my_ftp_t *my_ftp, client_t *client, char **params)
         new_path = handle_path(client, params[1]);
     if (new_path == NULL)
         return;
-    if (strncmp(my_ftp->root_path, new_path, strlen(my_ftp->root_path)) == 0) {
+    if (strncmp(root_path, new_path, strlen(root_path)) == 0) {
         free(client->cwd);
         client->cwd = new_path;
     }

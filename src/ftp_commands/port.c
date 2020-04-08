@@ -35,8 +35,8 @@ htons((infos[4] * 256) + infos[5]);
     client->data_channel.status = ACTIVE;
 }
 
-void port(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
-char **params)
+void port(client_t *client,
+char **params, char *root_path __attribute__((unused)))
 {
     int infos[6] = {-1};
 

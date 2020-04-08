@@ -7,8 +7,8 @@
 
 #include "my_ftp.h"
 
-void noop(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
-char **params __attribute__((unused)))
+void noop(client_t *client,
+char **params __attribute__((unused)), char *root_path __attribute__((unused)))
 {
     dprintf(client->socket.fd, CMD_200, "NOOP");
 }

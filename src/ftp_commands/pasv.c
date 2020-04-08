@@ -22,8 +22,8 @@ ip_numbers[1], ip_numbers[2], ip_numbers[3], port / 256, port % 256);
     client->data_channel.server.fd = server_socket;
 }
 
-void pasv(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
-char **params __attribute__((unused)))
+void pasv(client_t *client,
+char **params __attribute__((unused)), char *root_path __attribute__((unused)))
 {
     int server_socket = 0;
     socklen_t size = sizeof(struct sockaddr_in);
@@ -35,6 +35,8 @@ char **params __attribute__((unused)))
 strlen(CANNOT_OPEN_DATA_CHAN));
         return;
     }
+    getsockname(server_socket,
+(struct sockaddr *)&client->data_channel.server.sock_in, &size);
     init_data_channel(client, server_socket);
     return;
 }

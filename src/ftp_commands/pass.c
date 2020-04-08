@@ -7,8 +7,8 @@
 
 #include "my_ftp.h"
 
-void pass(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
-char **params)
+void pass(client_t *client,
+char **params, char *root_path __attribute__((unused)))
 {
     if (client->username == NULL || client->is_connected == true) {
         write(client->socket.fd, WRONG_SEQUENCE, strlen(WRONG_SEQUENCE));

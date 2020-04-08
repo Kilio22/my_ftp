@@ -17,6 +17,16 @@ ssize_t my_array_len(char **array)
     return i;
 }
 
+size_t get_clients_nb(client_t **clients)
+{
+    size_t i = 0;
+
+    if (clients == NULL)
+        return 0;
+    for (; clients[i]; i++);
+    return i;
+}
+
 my_ftp_t *get_ftp(my_ftp_t *ftp)
 {
     static my_ftp_t *store_ftp = NULL;

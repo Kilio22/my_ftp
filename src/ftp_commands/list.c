@@ -66,8 +66,8 @@ strlen(CANNOT_OPEN_DATA_CHAN));
     exit(0);
 }
 
-void list(my_ftp_t *my_ftp __attribute__((unused)), client_t *client,
-char **params)
+void list(client_t *client,
+char **params, char *root_path __attribute__((unused)))
 {
     pid_t pid = 0;
 

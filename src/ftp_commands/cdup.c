@@ -18,7 +18,7 @@ char *root_path)
     }
     new_path = concat_paths(client->cwd, "../", true);
     if (new_path == NULL) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ERROR_500, strlen(ERROR_500));
         return;
     }
     free(client->cwd);

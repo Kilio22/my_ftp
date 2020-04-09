@@ -13,7 +13,7 @@ static char *handle_path(client_t *client, char *given_path)
 
     path = concat_paths(client->cwd, given_path, true);
     if (path == NULL || is_dir(path) == false) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ERROR_500, strlen(ERROR_500));
         return NULL;
     }
     return path;

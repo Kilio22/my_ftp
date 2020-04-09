@@ -21,12 +21,12 @@ static void get_file(client_t *client, int fd)
 
 static void handle_child(client_t *client, int fd)
 {
-    write(client->socket.fd, DATA_150, strlen(DATA_150));
     if (connect_to_data_channel(client) == -1) {
         write(client->socket.fd,
 CANNOT_OPEN_DATA_CHAN, strlen(CANNOT_OPEN_DATA_CHAN));
         exit(0);
     }
+    write(client->socket.fd, DATA_150, strlen(DATA_150));
     get_file(client, fd);
     close(fd);
     close_data_channel(client);
@@ -55,17 +55,13 @@ static int get_file_fd(client_t *client, char *path)
     int fd = 0;
 
     if (path == NULL) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ERROR_500, strlen(ERROR_500));
         return -1;
     }
     filepath = get_filepath(client, path);
-    if (filepath == NULL) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
-        return -1;
-    }
     fd = open(filepath, O_WRONLY | O_TRUNC | O_CREAT, 0644);
     if (fd == -1) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ERROR_500, strlen(ERROR_500));
         return -1;
     }
     free(filepath);

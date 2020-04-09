@@ -37,7 +37,7 @@ static char *get_path(client_t *client, char *path)
         filepath = concat_paths(client->cwd, path, false);
     }
     if (filepath == NULL) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ERROR_500, strlen(ERROR_500));
         return NULL;
     }
     return filepath;
@@ -54,12 +54,12 @@ static void handle_child(client_t *client, char *param)
     }
     if (path == NULL)
         return;
-    write(client->socket.fd, DATA_150, strlen(DATA_150));
     if (connect_to_data_channel(client) == -1) {
         write(client->socket.fd, CANNOT_OPEN_DATA_CHAN,
 strlen(CANNOT_OPEN_DATA_CHAN));
         return;
     }
+    write(client->socket.fd, DATA_150, strlen(DATA_150));
     send_list(client, path);
     free(path);
     close_data_channel(client);

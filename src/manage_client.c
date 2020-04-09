@@ -44,10 +44,7 @@ static char **parse_client_input(char *buffer)
 static void exec_command(client_t *client, char **params, char *root_path)
 {
     for (size_t i = 0; command_array[i].name != NULL; i++) {
-        if (strcmp(command_array[i].name, params[0]) == 0 &&
-(my_array_len(params) >= command_array[i].params_nb ||
-command_array[i].params_nb == -1) && (command_array[i].to_be_connected == false
-|| (command_array[i].to_be_connected == true && client->is_connected == true))) {
+        if (IS_COMMAND) {
             return command_array[i].ptr(client, params, root_path);
         }
         if (strcmp(command_array[i].name, params[0]) == 0 &&
@@ -57,11 +54,15 @@ command_array[i].to_be_connected == true && client->is_connected == false) {
         }
         if (strcmp(command_array[i].name, params[0]) == 0
 && my_array_len(params) < command_array[i].params_nb) {
-            write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+            write(client->socket.fd, ERROR_500, strlen(ERROR_500));
             return;
         }
     }
-    write(client->socket.fd, BAD_COMMAND_500, strlen(BAD_COMMAND_500));
+    if (client->is_connected == false) {
+        write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
+    } else {
+        write(client->socket.fd, BAD_COMMAND_500, strlen(BAD_COMMAND_500));
+    }
 }
 
 void manage_client(client_t *client, char *root_path)

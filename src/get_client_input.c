@@ -39,7 +39,7 @@ char *get_client_input(client_t *client)
         return tmp;
     }
     concat_buffer(client, buff, nread);
-    tmp = strstr(client->buffer, "\n");
+    tmp = strchr(client->buffer, '\n');
     if (tmp == NULL)
         return strdup("");
     *tmp = '\0';

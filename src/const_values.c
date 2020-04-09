@@ -26,4 +26,4 @@ const char NOT_LOGGED_530[] = "530 Not logged in.\r\n";
 const char WRONG_SEQUENCE[] = "503 Bad sequence of commands.\n\r";
 const char BAD_COMMAND_500[] = "500 Syntax error, command unrecognized.\r\n";
 const char SYNTAX_ERROR[] = "501 Syntax error in parameters or arguments.\r\n";
-const char FILE_NOT_FOUND[] = "550 Requested action not taken.\r\n";
+const char ERROR_500[] = "550 Requested action not taken.\r\n";

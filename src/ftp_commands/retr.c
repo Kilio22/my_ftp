@@ -10,7 +10,7 @@
 static void send_file(client_t *client, int fd)
 {
     char buffer[READ_SIZE + 1] = {'\0'};
-    int nread = 0;
+    ssize_t nread = 0;
 
     while ((nread = read(fd, buffer, READ_SIZE)) > 0) {
         if (write(client->data_channel.fd, buffer, nread) == -1) {
@@ -24,12 +24,12 @@ static void send_file(client_t *client, int fd)
 
 static void handle_child(client_t *client, int fd)
 {
-    write(client->socket.fd, DATA_150, strlen(DATA_150));
     if (connect_to_data_channel(client) == -1) {
         write(client->socket.fd,
 CANNOT_OPEN_DATA_CHAN, strlen(CANNOT_OPEN_DATA_CHAN));
         exit(0);
     }
+    write(client->socket.fd, DATA_150, strlen(DATA_150));
     send_file(client, fd);
     close(fd);
     close_data_channel(client);
@@ -42,7 +42,7 @@ static int get_file_fd(client_t *client, char *path)
     int fd = 0;
 
     if (path == NULL) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ERROR_500, strlen(ERROR_500));
         return -1;
     }
     if (path[0] == '/')
@@ -50,12 +50,12 @@ static int get_file_fd(client_t *client, char *path)
     else
         filepath = concat_paths(client->cwd, path, false);
     if (filepath == NULL) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ERROR_500, strlen(ERROR_500));
         return -1;
     }
     fd = open(filepath, O_RDONLY);
     if (fd == -1) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ERROR_500, strlen(ERROR_500));
         return -1;
     }
     return fd;

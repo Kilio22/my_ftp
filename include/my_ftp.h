@@ -29,6 +29,10 @@ typedef struct client_s client_t;
 typedef struct data_channel_s data_channel_t;
 
 #define READ_SIZE 4096
+#define IS_COMMAND strcmp(command_array[i].name, params[0]) == 0 &&\
+(my_array_len(params) >= command_array[i].params_nb ||\
+command_array[i].params_nb == -1) && (command_array[i].to_be_connected == false\
+|| (command_array[i].to_be_connected == true && client->is_connected == true))
 
 enum data_channel_status_e
 {
@@ -92,7 +96,7 @@ extern const char NOT_LOGGED_530[];
 extern const char BAD_COMMAND_500[];
 extern const char WRONG_SEQUENCE[];
 extern const char SYNTAX_ERROR[];
-extern const char FILE_NOT_FOUND[];
+extern const char ERROR_500[];
 extern const char CANNOT_OPEN_DATA_CHAN[];
 extern const char TRANSFER_ABORT[];
 

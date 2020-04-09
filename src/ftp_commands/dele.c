@@ -18,11 +18,11 @@ char *root_path __attribute__((unused)))
         full_path = concat_paths(client->cwd, params[1], false);
     }
     if (full_path == NULL) {
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ERROR_500, strlen(ERROR_500));
         return;
     }
     if (remove(full_path) == -1)
-        write(client->socket.fd, FILE_NOT_FOUND, strlen(FILE_NOT_FOUND));
+        write(client->socket.fd, ERROR_500, strlen(ERROR_500));
     else
         write(client->socket.fd, ACTION_250, strlen(ACTION_250));
 }

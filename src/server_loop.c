@@ -71,7 +71,10 @@ static int manage_sockets(my_ftp_t *my_ftp)
 
 int server_loop(my_ftp_t *my_ftp)
 {
-    signal(SIGINT, &my_sa_handler);
+    struct sigaction sig = {0};
+
+    sig.sa_handler = &my_sa_handler;
+    sigaction(SIGINT, &sig, NULL);
     while (42) {
         if (manage_sockets(my_ftp) == -1)
             return -1;

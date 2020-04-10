@@ -40,6 +40,7 @@ static int check_command_status(socket_t *server)
         return -1;
     if (strstr(answer, "226") == NULL && strstr(answer, "250") == NULL)
         return -1;
+    printf(answer);
     free(answer);
     return 0;
 }

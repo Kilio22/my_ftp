@@ -79,11 +79,12 @@ void manage_client(client_t *client, char *root_path)
         return;
     }
     params = parse_client_input(buffer);
-    if (my_array_len(params) > 0)
+    if (my_array_len(params) > 0) {
         exec_command(client, params, root_path);
-    for (size_t i = 0; params[i]; i++) {
-        free(params[i]);
+        for (size_t i = 0; params[i]; i++) {
+            free(params[i]);
     }
-    free(params);
+        free(params);
+    }
     free(buffer);
 }

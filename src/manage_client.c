@@ -41,6 +41,15 @@ static char **parse_client_input(char *buffer)
     return array;
 }
 
+static void is_connected_checker(client_t *client)
+{
+    if (client->is_connected == false) {
+        write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
+    } else {
+        write(client->socket.fd, BAD_COMMAND_500, strlen(BAD_COMMAND_500));
+    }
+}
+
 static void exec_command(client_t *client, char **params, char *root_path)
 {
     for (size_t i = 0; command_array[i].name != NULL; i++) {
@@ -58,11 +67,7 @@ command_array[i].to_be_connected == true && client->is_connected == false) {
             return;
         }
     }
-    if (client->is_connected == false) {
-        write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
-    } else {
-        write(client->socket.fd, BAD_COMMAND_500, strlen(BAD_COMMAND_500));
-    }
+    is_connected_checker(client);
 }
 
 void manage_client(client_t *client, char *root_path)
@@ -81,10 +86,10 @@ void manage_client(client_t *client, char *root_path)
     params = parse_client_input(buffer);
     if (my_array_len(params) > 0) {
         exec_command(client, params, root_path);
-        for (size_t i = 0; params[i]; i++) {
+        for (size_t i = 0; params[i]; i++)
             free(params[i]);
-    }
         free(params);
-    }
+    } else
+        is_connected_checker(client);
     free(buffer);
 }

@@ -5,16 +5,11 @@
 ** const_values
 */
 
-const char DATA_150[] = "150 File status okay; about to open \
-data connection.\r\n";
+const char DATA_150[] = "150 File status okay; openning data connection.\r\n";
 const char CMD_200[] = "200 %s okay.\r\n";
-const char CMD_HELP[] = "214 Help:\nAvailable commands: USER, PASS, RETR, STOR,\
- PASV, PORT, PWD, CWD, CDUP, LIST, QUIT, DELE, HELP, NOOP\r\n";
 const char SERVICE_220[] = "220 Service ready for new user.\r\n";
-const char SERVICE_221[] = "221 Service closing control connection.\
-Logged out if appropriate.\r\n";
-const char DATA_226[] = "226 Closing data connection. Requested file action \
-successful (for example, file transfer or file abort).\r\n";
+const char SERVICE_221[] = "221 Logged out.\r\n";
+const char DATA_226[] = "226 Closing data connection.\r\n";
 const char PASSIVE_227[] = "227 Entering Passive Mode (%d,%d,%d,%d,%d,%d).\r\n";
 const char LOGIN_230[] = "230 User logged in, proceed.\r\n";
 const char ACTION_250[] = "250 Requested file action okay, completed.\r\n";

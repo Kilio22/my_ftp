@@ -83,7 +83,6 @@ struct command_s
 
 extern const char DATA_150[];
 extern const char CMD_200[];
-extern const char CMD_HELP[];
 extern const char SERVICE_220[];
 extern const char SERVICE_221[];
 extern const char DATA_226[];

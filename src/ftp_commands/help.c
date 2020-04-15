@@ -13,8 +13,8 @@ This command is a special case of CWD\r\n"},
     {"CWD", "214 - CHANGE WORKING DIRECTOR: This command allows the user \
 to work with a different directory or dataset for file storage \
 or retrieval without altering his login or accounting information.\r\n"},
-    {"DELE", "214 - This command causes the file specified in the pathname\
- to be deleted at the server site.\r\n"},
+    {"DELE", "214 - This command causes the file specified in the pathname \
+to be deleted at the server site.\r\n"},
     {"HELP", "214 - This command shall cause the server to send helpful \
 information regarding its implementation status over the \
 control connection to the user.\r\n"},
@@ -51,6 +51,10 @@ the control connections are made (some servers may require \
 this).\r\n"},
     {NULL, NULL}
 };
+
+static const char CMD_HELP[] = "214 Help: Available commands:\
+USER, PASS, RETR, STOR, PASV, PORT, PWD, CWD, \
+CDUP, LIST, QUIT, DELE, HELP, NOOP\r\n";
 
 void help(client_t *client,
 char **params __attribute__((unused)), char *root_path __attribute__((unused)))

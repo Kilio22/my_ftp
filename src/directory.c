@@ -32,15 +32,13 @@ char *concat_strings(char *str1, char *str2)
 char *concat_paths(char *cwd, char *filepath, bool need_slash)
 {
     char *new_path = concat_strings(cwd, filepath);
-    char real_path[PATH_MAX + 1] = {0};
     char *ptr = NULL;
 
-    ptr = realpath(new_path, real_path);
+    ptr = realpath(new_path, NULL);
     if (ptr == NULL) {
         free(new_path);
         return NULL;
     }
-    ptr = strdup(ptr);
     if (ptr[strlen(ptr) - 1] != '/' && need_slash == true) {
         ptr = realloc(ptr, strlen(ptr) + 2);
         ptr[strlen(ptr) + 1] = '\0';

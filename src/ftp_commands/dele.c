@@ -7,13 +7,12 @@
 
 #include "my_ftp.h"
 
-void dele(client_t *client, char **params,
-char *root_path __attribute__((unused)))
+void dele(client_t *client, char **params, char *root_path)
 {
     char *full_path = NULL;
 
     if (params[1][0] == '/') {
-        full_path = concat_paths(client->cwd, &params[1][1], false);
+        full_path = concat_paths(root_path, &params[1][1], false);
     } else {
         full_path = concat_paths(client->cwd, params[1], false);
     }

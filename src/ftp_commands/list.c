@@ -15,6 +15,7 @@ static void send_list(client_t *client, char *path)
 
     command = concat_strings("/bin/ls -l ", path);
     file = popen(command, "r");
+    free(command);
     if (file == NULL) {
         write(client->socket.fd, TRANSFER_ABORT, strlen(TRANSFER_ABORT));
         return;
@@ -27,12 +28,12 @@ static void send_list(client_t *client, char *path)
     fclose(file);
 }
 
-static char *get_path(client_t *client, char *path)
+static char *get_path(client_t *client, char *path, char *root_path)
 {
     char *filepath = NULL;
 
     if (path[0] == '/') {
-        filepath = concat_paths(client->cwd, &path[1], false);
+        filepath = concat_paths(root_path, &path[1], false);
     } else {
         filepath = concat_paths(client->cwd, path, false);
     }
@@ -43,20 +44,21 @@ static char *get_path(client_t *client, char *path)
     return filepath;
 }
 
-static void handle_child(client_t *client, char *param)
+static void handle_child(client_t *client, char *param, char *root_path)
 {
     char *path = NULL;
 
     if (param == NULL) {
         path = strdup(client->cwd);
     } else {
-        path = get_path(client, param);
+        path = get_path(client, param, root_path);
     }
     if (path == NULL)
         return;
     if (connect_to_data_channel(client) == -1) {
         write(client->socket.fd, CANNOT_OPEN_DATA_CHAN,
 strlen(CANNOT_OPEN_DATA_CHAN));
+        free(path);
         return;
     }
     write(client->socket.fd, DATA_150, strlen(DATA_150));
@@ -66,8 +68,7 @@ strlen(CANNOT_OPEN_DATA_CHAN));
     exit(0);
 }
 
-void list(client_t *client,
-char **params, char *root_path __attribute__((unused)))
+void list(client_t *client, char **params, char *root_path)
 {
     pid_t pid = 0;
 
@@ -79,6 +80,6 @@ char **params, char *root_path __attribute__((unused)))
 CANNOT_OPEN_DATA_CHAN, strlen(CANNOT_OPEN_DATA_CHAN));
         return;
     } else if (pid == 0)
-        handle_child(client, params[1]);
+        handle_child(client, params[1], root_path);
     close_data_channel(client);
 }

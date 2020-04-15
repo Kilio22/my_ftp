@@ -20,7 +20,7 @@ static size_t count_char(char *str, char c)
 
 static void init_data_channel(client_t *client, int infos[6])
 {
-    char ip_address[14] = {0};
+    char ip_address[16] = {0};
 
     sprintf(ip_address, "%d.%d.%d.%d", infos[0], infos[1], infos[2], infos[3]);
     if (inet_aton(ip_address,

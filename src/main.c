@@ -9,11 +9,10 @@
 
 static char *get_directory(char *path)
 {
-    char real_path[PATH_MAX + 2] = {0};
     char *result = NULL;
     size_t len = 0;
 
-    result = realpath(path, real_path);
+    result = realpath(path, NULL);
     if (result == NULL) {
         free(path);
         return NULL;

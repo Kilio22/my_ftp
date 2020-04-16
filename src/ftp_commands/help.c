@@ -28,7 +28,7 @@ identification for access control.\r\n"},
     {"PASV", "214 - This command requests the server-DTP to \"listen\" \
 on a data port (which is not its default data port) and to wait for a \
 connection rather than initiate one upon receipt of a \
-transfer command.  The response to this command includes the \
+transfer command. The response to this command includes the \
 host and port address this server is listening on.\r\n"},
     {"PORT", "214 - The argument is a HOST-PORT specification for the \
 data port to be used in data connection. A port command would be: \
@@ -45,16 +45,14 @@ transferred via the data connection and to store the data as \
 a file at the server site.\r\n"},
     {"USER", "214 - The argument field is a Telnet string \
 identifying the user. The user identification is that which is required by the \
-server for access to its file system.  This command will \
+server for access to its file system. This command will \
 normally be the first command transmitted by the user after \
 the control connections are made (some servers may require \
 this).\r\n"},
     {NULL, NULL}
 };
 
-static const char CMD_HELP[] = "214 Help: Available commands:\
-USER, PASS, RETR, STOR, PASV, PORT, PWD, CWD, \
-CDUP, LIST, QUIT, DELE, HELP, NOOP\r\n";
+static const char CMD_HELP[] = "214 Help\r\n";
 
 void help(client_t *client,
 char **params __attribute__((unused)), char *root_path __attribute__((unused)))

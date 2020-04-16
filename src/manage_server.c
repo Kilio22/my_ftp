@@ -16,6 +16,7 @@ void manage_other_servers(client_t *client)
         return;
     }
     client->data_channel.fd = new_client->socket.fd;
+    free(new_client->cwd);
     free(new_client);
 }
 

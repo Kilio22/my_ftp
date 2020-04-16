@@ -34,7 +34,7 @@ static void handle_file_fetching(client_t *client, int fd)
         write(client->socket.fd, DATA_150, strlen(DATA_150));
         get_file(client, fd);
         close(fd);
-        close_data_channel(client);
+        destroy_server();
         exit(0);
     }
 }

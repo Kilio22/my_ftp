@@ -41,6 +41,7 @@ void close_client_data(client_t *client)
     free(client->password);
     free(client->username);
     free(client->cwd);
+    free(client->buffer);
 }
 
 void remove_client(client_t *client)

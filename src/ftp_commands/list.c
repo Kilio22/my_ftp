@@ -62,7 +62,7 @@ static void handle_ls(client_t *client, char *path)
         write(client->socket.fd, DATA_150, strlen(DATA_150));
         send_list(client, path);
         free(path);
-        close_data_channel(client);
+        destroy_server();
         exit(0);
     }
 }

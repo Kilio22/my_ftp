@@ -10,21 +10,9 @@
 
 static void my_sa_handler(int sig)
 {
-    my_ftp_t *my_ftp = NULL;
-    size_t len = 0;
-
     if (sig != SIGINT)
         return;
-    my_ftp = get_ftp(NULL);
-    len = get_clients_nb(my_ftp->clients);
-    for (size_t i = 0; i < len; i++) {
-        close_client_data(my_ftp->clients[i]);
-        free(my_ftp->clients[i]);
-    }
-    free(my_ftp->clients);
-    close(my_ftp->main_server->fd);
-    free(my_ftp->main_server);
-    free(my_ftp->root_path);
+    destroy_server();
     exit(0);
 }
 

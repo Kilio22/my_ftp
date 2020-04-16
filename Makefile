@@ -47,6 +47,7 @@ SRC	=	accept.c	\
 		client_utils.c	\
 		const_values.c	\
 		data_channel_utils.c	\
+		destroy_server.c	\
 		directory.c	\
 		get_client_input.c	\
 		init_ftp.c	\

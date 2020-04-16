@@ -124,6 +124,7 @@ char *concat_paths(char *cwd, char *filepath, bool need_slash);
 char *concat_strings(char *str1, char *str2);
 bool is_connected(client_t *client);
 size_t get_clients_nb(client_t **clients);
+void destroy_server(void);
 
 // commands
 void port(client_t *client, char **params, char *root_path);

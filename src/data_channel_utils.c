@@ -41,6 +41,7 @@ int connect_to_data_channel_passive(client_t *client)
     if (new_client == NULL)
         return -1;
     client->data_channel.fd = new_client->socket.fd;
+    free(new_client->cwd);
     free(new_client);
     return 0;
 }

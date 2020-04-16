@@ -96,7 +96,7 @@ extern const char BAD_COMMAND_500[];
 extern const char WRONG_SEQUENCE[];
 extern const char SYNTAX_ERROR[];
 extern const char ERROR_500[];
-extern const char CANNOT_OPEN_DATA_CHAN[];
+extern const char DATA_425[];
 extern const char TRANSFER_ABORT[];
 
 socket_t *init_server(in_port_t port);

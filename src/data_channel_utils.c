@@ -59,8 +59,7 @@ client->data_channel.status == PASSIVE)
 bool is_data_channel_open(data_channel_t *data_channel, int fd)
 {
     if (data_channel->status == NONE) {
-        write(fd, CANNOT_OPEN_DATA_CHAN,
-strlen(CANNOT_OPEN_DATA_CHAN));
+        write(fd, DATA_425, strlen(DATA_425));
         return false;
     }
     return true;

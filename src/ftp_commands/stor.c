@@ -19,18 +19,24 @@ static void get_file(client_t *client, int fd)
     write(client->socket.fd, DATA_226, strlen(DATA_226));
 }
 
-static void handle_child(client_t *client, int fd)
+static void handle_file_fetching(client_t *client, int fd)
 {
+    pid_t pid = 0;
+
     if (connect_to_data_channel(client) == -1) {
-        write(client->socket.fd,
-CANNOT_OPEN_DATA_CHAN, strlen(CANNOT_OPEN_DATA_CHAN));
+        write(client->socket.fd, DATA_425, strlen(DATA_425));
         exit(0);
     }
-    write(client->socket.fd, DATA_150, strlen(DATA_150));
-    get_file(client, fd);
-    close(fd);
-    close_data_channel(client);
-    exit(0);
+    pid = fork();
+    if (pid == -1) {
+        write(client->socket.fd, DATA_425, strlen(DATA_425));
+    } else if (pid == 0) {
+        write(client->socket.fd, DATA_150, strlen(DATA_150));
+        get_file(client, fd);
+        close(fd);
+        close_data_channel(client);
+        exit(0);
+    }
 }
 
 static char *get_filepath(client_t *client, char *path, char *root_path)
@@ -71,22 +77,13 @@ static int get_file_fd(client_t *client, char *path, char *root_path)
 void stor(client_t *client, char **params, char *root_path)
 {
     int fd = 0;
-    pid_t pid = 0;
 
     if (is_data_channel_open(&client->data_channel, client->socket.fd) == false)
         return;
     fd = get_file_fd(client, params[1], root_path);
     if (fd == -1)
         return;
-    pid = fork();
-    if (pid == -1) {
-        write(client->socket.fd,
-CANNOT_OPEN_DATA_CHAN, strlen(CANNOT_OPEN_DATA_CHAN));
-        close(fd);
-        return;
-    } else if (pid == 0) {
-        handle_child(client, fd);
-    }
+    handle_file_fetching(client, fd);
     close(fd);
     close_data_channel(client);
 }

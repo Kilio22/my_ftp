@@ -31,8 +31,7 @@ char **params __attribute__((unused)), char *root_path __attribute__((unused)))
     close_data_channel(client);
     server_socket = create_server(0);
     if (server_socket == -1) {
-        write(client->socket.fd, CANNOT_OPEN_DATA_CHAN,
-strlen(CANNOT_OPEN_DATA_CHAN));
+        write(client->socket.fd, DATA_425, strlen(DATA_425));
         return;
     }
     getsockname(server_socket,

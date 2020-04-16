@@ -32,6 +32,8 @@ static char *get_path(client_t *client, char *path, char *root_path)
 {
     char *filepath = NULL;
 
+    if (path == NULL)
+        return strdup(client->cwd);
     if (path[0] == '/') {
         filepath = concat_paths(root_path, &path[1], false);
     } else {
@@ -44,42 +46,36 @@ static char *get_path(client_t *client, char *path, char *root_path)
     return filepath;
 }
 
-static void handle_child(client_t *client, char *param, char *root_path)
+static void handle_ls(client_t *client, char *path)
 {
-    char *path = NULL;
+    pid_t pid = 0;
 
-    if (param == NULL) {
-        path = strdup(client->cwd);
-    } else {
-        path = get_path(client, param, root_path);
-    }
-    if (path == NULL)
-        return;
     if (connect_to_data_channel(client) == -1) {
-        write(client->socket.fd, CANNOT_OPEN_DATA_CHAN,
-strlen(CANNOT_OPEN_DATA_CHAN));
+        write(client->socket.fd, DATA_425, strlen(DATA_425));
         free(path);
         return;
     }
-    write(client->socket.fd, DATA_150, strlen(DATA_150));
-    send_list(client, path);
-    free(path);
-    close_data_channel(client);
-    exit(0);
+    pid = fork();
+    if (pid == -1) {
+        write(client->socket.fd, DATA_425, strlen(DATA_425));
+    } else if (pid == 0) {
+        write(client->socket.fd, DATA_150, strlen(DATA_150));
+        send_list(client, path);
+        free(path);
+        close_data_channel(client);
+        exit(0);
+    }
 }
 
 void list(client_t *client, char **params, char *root_path)
 {
-    pid_t pid = 0;
+    char *path = NULL;
 
     if (is_data_channel_open(&client->data_channel, client->socket.fd) == false)
         return;
-    pid = fork();
-    if (pid == -1) {
-        write(client->socket.fd,
-CANNOT_OPEN_DATA_CHAN, strlen(CANNOT_OPEN_DATA_CHAN));
+    path = get_path(client, params[1], root_path);
+    if (path == NULL)
         return;
-    } else if (pid == 0)
-        handle_child(client, params[1], root_path);
+    handle_ls(client, path);
     close_data_channel(client);
 }

@@ -32,7 +32,7 @@ static char **parse_client_input(char *buffer)
     size_t i = 0;
 
     while (token != NULL) {
-        array = realloc(array, sizeof(char *) * (my_array_len(array) + 2));
+        array = realloc(array, sizeof(char *) * (my_tab_len(array) + 2));
         array[i] = strdup(token);
         array[i + 1] = NULL;
         i++;
@@ -62,7 +62,7 @@ command_array[i].to_be_connected == true && client->is_connected == false) {
             return;
         }
         if (strcmp(command_array[i].name, params[0]) == 0
-&& my_array_len(params) < command_array[i].params_nb) {
+&& my_tab_len(params) < command_array[i].params_nb) {
             write(client->socket.fd, ERROR_500, strlen(ERROR_500));
             return;
         }
@@ -84,7 +84,7 @@ void manage_client(client_t *client, char *root_path)
         return;
     }
     params = parse_client_input(buffer);
-    if (my_array_len(params) > 0) {
+    if (my_tab_len(params) > 0) {
         exec_command(client, params, root_path);
         for (size_t i = 0; params[i]; i++)
             free(params[i]);

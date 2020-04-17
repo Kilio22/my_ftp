@@ -24,7 +24,7 @@ int manage_main_server(my_ftp_t *my_ftp)
 {
     client_t *client = accept_client(my_ftp->main_server,
 my_ftp->root_path, true);
-    size_t nb_clients = get_clients_nb(my_ftp->clients);
+    ssize_t nb_clients = my_tab_len(my_ftp->clients);
 
     if (client == NULL)
         return -1;

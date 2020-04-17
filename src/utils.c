@@ -7,23 +7,14 @@
 
 #include "my_ftp.h"
 
-ssize_t my_array_len(char **array)
+ssize_t my_tab_len(void *array)
 {
-    ssize_t i = 0;
+    char **byte_tab = array;
+    size_t i = 0;
 
     if (array == NULL)
         return 0;
-    for (; array[i]; i++);
-    return i;
-}
-
-size_t get_clients_nb(client_t **clients)
-{
-    size_t i = 0;
-
-    if (clients == NULL)
-        return 0;
-    for (; clients[i]; i++);
+    for (; byte_tab[i]; i++);
     return i;
 }
 

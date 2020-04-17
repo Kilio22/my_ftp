@@ -30,7 +30,7 @@ typedef struct data_channel_s data_channel_t;
 
 #define READ_SIZE 4096
 #define IS_COMMAND strcmp(command_array[i].name, params[0]) == 0 &&\
-(my_array_len(params) >= command_array[i].params_nb ||\
+(my_tab_len(params) >= command_array[i].params_nb ||\
 command_array[i].params_nb == -1) && (command_array[i].to_be_connected == false\
 || (command_array[i].to_be_connected == true && client->is_connected == true))
 
@@ -114,7 +114,7 @@ int create_server(in_port_t port);
 // utils
 void remove_client(client_t *client);
 void close_client_data(client_t *client);
-ssize_t my_array_len(char **array);
+ssize_t my_tab_len(void *array);
 bool is_data_channel_open(data_channel_t *data_channel, int fd);
 int connect_to_data_channel(client_t *client);
 void close_data_channel(client_t *client);
@@ -123,7 +123,6 @@ my_ftp_t *get_ftp(my_ftp_t *ftp);
 char *concat_paths(char *cwd, char *filepath, bool need_slash);
 char *concat_strings(char *str1, char *str2);
 bool is_connected(client_t *client);
-size_t get_clients_nb(client_t **clients);
 void destroy_server(void);
 
 // commands

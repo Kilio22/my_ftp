@@ -47,8 +47,8 @@ void close_client_data(client_t *client)
 void remove_client(client_t *client)
 {
     my_ftp_t *my_ftp = get_ftp(NULL);
-    size_t len = get_clients_nb(my_ftp->clients);
-    size_t i = 0;
+    ssize_t len = my_tab_len(my_ftp->clients);
+    ssize_t i = 0;
 
     close_client_data(client);
     for (; i < len; i++) {

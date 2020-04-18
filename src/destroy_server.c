@@ -9,7 +9,7 @@
 
 void destroy_server(void)
 {
-    my_ftp_t *my_ftp = get_ftp(NULL);
+    struct my_ftp_s *my_ftp = get_ftp(NULL);
 
     for (size_t i = 0; my_ftp->clients[i] != NULL; i++) {
         close_client_data(my_ftp->clients[i]);

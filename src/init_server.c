@@ -48,10 +48,10 @@ int create_server(in_port_t port)
     return fd;
 }
 
-socket_t *init_server(in_port_t port)
+struct socket_s *init_server(in_port_t port)
 {
     int fd = create_server(port);
-    socket_t *server_socket = malloc(sizeof(socket_t));
+    struct socket_s *server_socket = malloc(sizeof(struct socket_s));
 
     if (fd == -1)
         return NULL;

@@ -14,7 +14,7 @@ static size_t my_strlen(char *str)
     return strlen(str);
 }
 
-static void concat_buffer(client_t *client, char *buff, ssize_t nread)
+static void concat_buffer(struct client_s *client, char *buff, ssize_t nread)
 {
     char *tmp = realloc(client->buffer,
 my_strlen(client->buffer) + nread + 1);
@@ -26,7 +26,7 @@ my_strlen(client->buffer) + nread + 1);
     client->buffer = tmp;
 }
 
-char *get_client_input(client_t *client)
+char *get_client_input(struct client_s *client)
 {
     char buff[READ_SIZE + 1] = {0};
     char *tmp = NULL;

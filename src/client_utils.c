@@ -10,7 +10,7 @@
 static const char default_user[] = "Anonymous";
 static const char default_password[] = "";
 
-bool is_connected(client_t *client)
+bool is_connected(struct client_s *client)
 {
     if (client->is_connected == false) {
         write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
@@ -19,7 +19,7 @@ bool is_connected(client_t *client)
     return true;
 }
 
-bool has_valid_creditentials(client_t *client, bool should_send_msg)
+bool has_valid_creditentials(struct client_s *client, bool should_send_msg)
 {
     if (client->password == NULL || client->username == NULL) {
         if (should_send_msg == true)
@@ -34,7 +34,7 @@ bool has_valid_creditentials(client_t *client, bool should_send_msg)
     return false;
 }
 
-void close_client_data(client_t *client)
+void close_client_data(struct client_s *client)
 {
     close_data_channel(client);
     close(client->socket.fd);
@@ -44,9 +44,9 @@ void close_client_data(client_t *client)
     free(client->buffer);
 }
 
-void remove_client(client_t *client)
+void remove_client(struct client_s *client)
 {
-    my_ftp_t *my_ftp = get_ftp(NULL);
+    struct my_ftp_s *my_ftp = get_ftp(NULL);
     ssize_t len = my_tab_len(my_ftp->clients);
     ssize_t i = 0;
 

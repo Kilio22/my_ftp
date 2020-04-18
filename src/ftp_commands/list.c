@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-static void send_list(client_t *client, char *path)
+static void send_list(struct client_s *client, char *path)
 {
     FILE *file = NULL;
     char buffer[READ_SIZE + 1] = {'\0'};
@@ -28,7 +28,7 @@ static void send_list(client_t *client, char *path)
     fclose(file);
 }
 
-static char *get_path(client_t *client, char *path, char *root_path)
+static char *get_path(struct client_s *client, char *path, char *root_path)
 {
     char *filepath = NULL;
 
@@ -46,7 +46,7 @@ static char *get_path(client_t *client, char *path, char *root_path)
     return filepath;
 }
 
-static void handle_ls(client_t *client, char *path)
+static void handle_ls(struct client_s *client, char *path)
 {
     pid_t pid = 0;
 
@@ -67,7 +67,7 @@ static void handle_ls(client_t *client, char *path)
     }
 }
 
-void list(client_t *client, char **params, char *root_path)
+void list(struct client_s *client, char **params, char *root_path)
 {
     char *path = NULL;
 

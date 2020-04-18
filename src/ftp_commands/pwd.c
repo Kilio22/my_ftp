@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-void pwd(client_t *client,
+void pwd(struct client_s *client,
 char **params __attribute__((unused)), char *root_path)
 {
     char *to_send = NULL;

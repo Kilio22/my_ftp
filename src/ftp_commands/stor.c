@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-static void get_file(client_t *client, int fd)
+static void get_file(struct client_s *client, int fd)
 {
     ssize_t nread = 0;
     char buffer[READ_SIZE + 1] = {'\0'};
@@ -19,7 +19,7 @@ static void get_file(client_t *client, int fd)
     write(client->socket.fd, DATA_226, strlen(DATA_226));
 }
 
-static void handle_file_fetching(client_t *client, int fd)
+static void handle_file_fetching(struct client_s *client, int fd)
 {
     pid_t pid = 0;
 
@@ -39,7 +39,7 @@ static void handle_file_fetching(client_t *client, int fd)
     }
 }
 
-static char *get_filepath(client_t *client, char *path, char *root_path)
+static char *get_filepath(struct client_s *client, char *path, char *root_path)
 {
     char *filepath = NULL;
 
@@ -55,7 +55,7 @@ static char *get_filepath(client_t *client, char *path, char *root_path)
     return filepath;
 }
 
-static int get_file_fd(client_t *client, char *path, char *root_path)
+static int get_file_fd(struct client_s *client, char *path, char *root_path)
 {
     char *filepath = NULL;
     int fd = 0;
@@ -74,7 +74,7 @@ static int get_file_fd(client_t *client, char *path, char *root_path)
     return fd;
 }
 
-void stor(client_t *client, char **params, char *root_path)
+void stor(struct client_s *client, char **params, char *root_path)
 {
     int fd = 0;
 

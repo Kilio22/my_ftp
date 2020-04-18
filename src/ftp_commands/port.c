@@ -18,7 +18,7 @@ static size_t count_char(char *str, char c)
     return occur;
 }
 
-static void init_data_channel(client_t *client, int infos[6])
+static void init_data_channel(struct client_s *client, int infos[6])
 {
     char ip_address[16] = {0};
 
@@ -35,7 +35,7 @@ htons((infos[4] * 256) + infos[5]);
     client->data_channel.status = ACTIVE;
 }
 
-void port(client_t *client,
+void port(struct client_s *client,
 char **params, char *root_path __attribute__((unused)))
 {
     int infos[6] = {-1};

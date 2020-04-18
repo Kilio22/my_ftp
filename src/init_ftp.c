@@ -7,9 +7,9 @@
 
 #include "my_ftp.h"
 
-int init_ftp(my_ftp_t *my_ftp, char *user_port, char *real_path)
+int init_ftp(struct my_ftp_s *my_ftp, char *user_port, char *real_path)
 {
-    socket_t *server = NULL;
+    struct socket_s *server = NULL;
     char *given_port = strdup(user_port);
     char *save_ptr = given_port;
     in_port_t port = strtol(given_port, &given_port, 10);
@@ -17,8 +17,8 @@ int init_ftp(my_ftp_t *my_ftp, char *user_port, char *real_path)
     if (*given_port != '\0' || *save_ptr == '\0')
         return -1;
     free(save_ptr);
-    my_ftp->clients = malloc(sizeof(client_t *) * (FD_SETSIZE + 1));
-    memset(my_ftp->clients, 0, sizeof(client_t *) * (FD_SETSIZE + 1));
+    my_ftp->clients = malloc(sizeof(struct client_s *) * (FD_SETSIZE + 1));
+    memset(my_ftp->clients, 0, sizeof(struct client_s *) * (FD_SETSIZE + 1));
     server = init_server(port);
     if (server == NULL) {
         free(my_ftp->clients);

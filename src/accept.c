@@ -7,16 +7,16 @@
 
 #include "my_ftp.h"
 
-client_t *accept_client(socket_t *main_server, char *root_path,
+struct client_s *accept_client(struct socket_s *main_server, char *root_path,
 bool should_write)
 {
     struct sockaddr_in sock_client = {0};
     socklen_t sockaddr_client_size = sizeof(sock_client);
     int client_fd = accept(main_server->fd, (struct sockaddr *)&sock_client,
 &sockaddr_client_size);
-    client_t *client = malloc(sizeof(client_t));
+    struct client_s *client = malloc(sizeof(struct client_s));
 
-    memset(client, 0, sizeof(client_t));
+    memset(client, 0, sizeof(struct client_s));
     if (client_fd == -1) {
         fprintf(stderr, "Accept failed.\n");
         return NULL;

@@ -54,7 +54,7 @@ this).\r\n"},
 
 static const char CMD_HELP[] = "214 Help\r\n";
 
-void help(client_t *client,
+void help(struct client_s *client,
 char **params __attribute__((unused)), char *root_path __attribute__((unused)))
 {
     if (params[1] == NULL) {

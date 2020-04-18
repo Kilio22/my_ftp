@@ -30,7 +30,7 @@ static char *get_directory(char *path)
 
 int main(int ac, char **av)
 {
-    my_ftp_t my_ftp = {0};
+    struct my_ftp_s my_ftp = {0};
     char *real_path = NULL;
 
     if (ac != 3 || strcmp(av[2], "") == 0)

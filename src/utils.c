@@ -18,9 +18,9 @@ ssize_t my_tab_len(void *array)
     return i;
 }
 
-my_ftp_t *get_ftp(my_ftp_t *ftp)
+struct my_ftp_s *get_ftp(struct my_ftp_s *ftp)
 {
-    static my_ftp_t *store_ftp = NULL;
+    static struct my_ftp_s *store_ftp = NULL;
 
     if (ftp == NULL)
         return store_ftp;

@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-static void send_file(client_t *client, int fd)
+static void send_file(struct client_s *client, int fd)
 {
     char buffer[READ_SIZE + 1] = {'\0'};
     ssize_t nread = 0;
@@ -22,7 +22,7 @@ static void send_file(client_t *client, int fd)
     write(client->socket.fd, DATA_226, strlen(DATA_226));
 }
 
-static void handle_file_sending(client_t *client, int fd)
+static void handle_file_sending(struct client_s *client, int fd)
 {
     pid_t pid;
 
@@ -42,7 +42,7 @@ static void handle_file_sending(client_t *client, int fd)
     }
 }
 
-static int get_file_fd(client_t *client, char *path, char *root_path)
+static int get_file_fd(struct client_s *client, char *path, char *root_path)
 {
     char *filepath = NULL;
     int fd = 0;
@@ -67,7 +67,7 @@ static int get_file_fd(client_t *client, char *path, char *root_path)
     return fd;
 }
 
-void retr(client_t *client, char **params, char *root_path)
+void retr(struct client_s *client, char **params, char *root_path)
 {
     int fd = 0;
 

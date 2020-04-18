@@ -7,7 +7,8 @@
 
 #include "my_ftp.h"
 
-static char *handle_path(client_t *client, char *given_path, char *root_path)
+static char *handle_path(struct client_s *client,
+char *given_path, char *root_path)
 {
     char *path = NULL;
 
@@ -22,7 +23,7 @@ static char *handle_path(client_t *client, char *given_path, char *root_path)
     return path;
 }
 
-void cwd(client_t *client, char **params, char *root_path)
+void cwd(struct client_s *client, char **params, char *root_path)
 {
     char *new_path = NULL;
 

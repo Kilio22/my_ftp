@@ -16,7 +16,7 @@ static void my_sa_handler(int sig)
     exit(0);
 }
 
-static void manage_clients(my_ftp_t *my_ftp, int fd)
+static void manage_clients(struct my_ftp_s *my_ftp, int fd)
 {
     for (size_t i = 0; my_ftp->clients[i]; i++) {
         if (my_ftp->clients[i] != NULL && my_ftp->clients[i]->socket.fd == fd)
@@ -27,7 +27,7 @@ my_ftp->clients[i]->data_channel.server.fd == fd)
     }
 }
 
-static void reset_set(my_ftp_t *my_ftp)
+static void reset_set(struct my_ftp_s *my_ftp)
 {
     FD_ZERO(&my_ftp->r_set);
     FD_SET(my_ftp->main_server->fd, &my_ftp->r_set);
@@ -41,7 +41,7 @@ my_ftp->clients[i]->data_channel.fd == 0) {
     }
 }
 
-static int manage_sockets(my_ftp_t *my_ftp)
+static int manage_sockets(struct my_ftp_s *my_ftp)
 {
     reset_set(my_ftp);
     if (select(FD_SETSIZE, &my_ftp->r_set, NULL, NULL, NULL) <= 0) {
@@ -57,7 +57,7 @@ static int manage_sockets(my_ftp_t *my_ftp)
     return 0;
 }
 
-int server_loop(my_ftp_t *my_ftp)
+int server_loop(struct my_ftp_s *my_ftp)
 {
     struct sigaction sig = {0};
 

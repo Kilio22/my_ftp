@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-void cdup(client_t *client, char **params __attribute__((unused)),
+void cdup(struct client_s *client, char **params __attribute__((unused)),
 char *root_path)
 {
     char *new_path = NULL;

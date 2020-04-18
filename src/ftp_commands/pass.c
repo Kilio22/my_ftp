@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-void pass(client_t *client,
+void pass(struct client_s *client,
 char **params, char *root_path __attribute__((unused)))
 {
     if (client->username == NULL || client->is_connected == true) {

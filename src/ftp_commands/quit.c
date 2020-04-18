@@ -7,7 +7,7 @@
 
 #include "my_ftp.h"
 
-void quit(client_t *client,
+void quit(struct client_s *client,
 char **params __attribute__((unused)), char *root_path __attribute__((unused)))
 {
     write(client->socket.fd, SERVICE_221, strlen(SERVICE_221));

@@ -7,9 +7,9 @@
 
 #include "my_ftp.h"
 
-void manage_other_servers(client_t *client)
+void manage_other_servers(struct client_s *client)
 {
-    client_t *new_client = accept_client(&client->data_channel.server,
+    struct client_s *new_client = accept_client(&client->data_channel.server,
 "", false);
 
     if (new_client == NULL) {
@@ -20,9 +20,9 @@ void manage_other_servers(client_t *client)
     free(new_client);
 }
 
-int manage_main_server(my_ftp_t *my_ftp)
+int manage_main_server(struct my_ftp_s *my_ftp)
 {
-    client_t *client = accept_client(my_ftp->main_server,
+    struct client_s *client = accept_client(my_ftp->main_server,
 my_ftp->root_path, true);
     ssize_t nb_clients = my_tab_len(my_ftp->clients);
 

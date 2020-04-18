@@ -41,7 +41,7 @@ static char **parse_client_input(char *buffer)
     return array;
 }
 
-static void is_connected_checker(client_t *client)
+static void is_connected_checker(struct client_s *client)
 {
     if (client->is_connected == false) {
         write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
@@ -50,7 +50,8 @@ static void is_connected_checker(client_t *client)
     }
 }
 
-static void exec_command(client_t *client, char **params, char *root_path)
+static void exec_command(struct client_s *client,
+char **params, char *root_path)
 {
     for (size_t i = 0; command_array[i].name != NULL; i++) {
         if (IS_COMMAND) {
@@ -70,7 +71,7 @@ command_array[i].to_be_connected == true && client->is_connected == false) {
     is_connected_checker(client);
 }
 
-void manage_client(client_t *client, char *root_path)
+void manage_client(struct client_s *client, char *root_path)
 {
     char *buffer = get_client_input(client);
     char **params = NULL;

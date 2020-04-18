@@ -46,6 +46,7 @@ COMMANDS_PATH	=	ftp_commands
 SRC	=	accept.c	\
 		client_utils.c	\
 		const_values.c	\
+		create_socket.c	\
 		data_channel_utils.c	\
 		destroy_server.c	\
 		directory.c	\

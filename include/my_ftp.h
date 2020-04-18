@@ -114,7 +114,6 @@ ssize_t my_tab_len(void *array);
 bool is_data_channel_open(struct data_channel_s *data_channel, int fd);
 int connect_to_data_channel(struct client_s *client);
 void close_data_channel(struct client_s *client);
-bool has_valid_creditentials(struct client_s *client, bool should_send_msg);
 struct my_ftp_s *get_ftp(struct my_ftp_s *ftp);
 char *concat_paths(char *cwd, char *filepath, bool need_slash);
 char *concat_strings(char *str1, char *str2);

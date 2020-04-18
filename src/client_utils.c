@@ -7,9 +7,6 @@
 
 #include "my_ftp.h"
 
-static const char default_user[] = "Anonymous";
-static const char default_password[] = "";
-
 bool is_connected(struct client_s *client)
 {
     if (client->is_connected == false) {
@@ -17,21 +14,6 @@ bool is_connected(struct client_s *client)
         return false;
     }
     return true;
-}
-
-bool has_valid_creditentials(struct client_s *client, bool should_send_msg)
-{
-    if (client->password == NULL || client->username == NULL) {
-        if (should_send_msg == true)
-            write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
-        return false;
-    }
-    if (!strcmp(client->username, default_user) &&
-!strcmp(client->password, default_password))
-        return true;
-    if (should_send_msg == true)
-        write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
-    return false;
 }
 
 void close_client_data(struct client_s *client)
@@ -58,8 +40,6 @@ void remove_client(struct client_s *client)
             break;
         }
     }
-    if (i == len)
-        return;
     for (; i < len; i++) {
         my_ftp->clients[i] = my_ftp->clients[i + 1];
         my_ftp->clients[i + 1] = NULL;

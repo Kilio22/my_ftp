@@ -20,7 +20,7 @@ void close_data_channel(struct client_s *client)
     memset(&client->data_channel, 0, sizeof(struct data_channel_s));
 }
 
-int connect_to_data_channel_active(struct client_s *client)
+static int connect_to_data_channel_active(struct client_s *client)
 {
     int fd = create_socket();
 
@@ -33,7 +33,7 @@ sizeof(struct sockaddr_in)) == -1)
     return 0;
 }
 
-int connect_to_data_channel_passive(struct client_s *client)
+static int connect_to_data_channel_passive(struct client_s *client)
 {
     struct client_s *new_client = accept_client(&client->data_channel.server,
 "", false);

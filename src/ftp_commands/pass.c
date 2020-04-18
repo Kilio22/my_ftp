@@ -7,6 +7,20 @@
 
 #include "my_ftp.h"
 
+static const char default_user[] = "Anonymous";
+static const char default_password[] = "";
+
+static bool has_valid_creditentials(struct client_s *client,
+bool should_send_msg)
+{
+    if (!strcmp(client->username, default_user) &&
+!strcmp(client->password, default_password))
+        return true;
+    if (should_send_msg == true)
+        write(client->socket.fd, NOT_LOGGED_530, strlen(NOT_LOGGED_530));
+    return false;
+}
+
 void pass(struct client_s *client,
 char **params, char *root_path __attribute__((unused)))
 {

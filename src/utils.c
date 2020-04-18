@@ -20,10 +20,10 @@ ssize_t my_tab_len(void *array)
 
 struct my_ftp_s *get_ftp(struct my_ftp_s *ftp)
 {
-    static struct my_ftp_s *store_ftp = NULL;
+    static struct my_ftp_s *stored_ftp = NULL;
 
     if (ftp == NULL)
-        return store_ftp;
-    store_ftp = ftp;
+        return stored_ftp;
+    stored_ftp = ftp;
     return ftp;
 }

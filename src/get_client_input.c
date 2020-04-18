@@ -20,7 +20,7 @@ static void concat_buffer(struct client_s *client, char *buff, ssize_t nread)
 my_strlen(client->buffer) + nread + 1);
 
     if (client->buffer == NULL) {
-        memset(tmp, '\0', my_strlen(client->buffer) + nread + 1);
+        memset(tmp, '\0', nread + 1);
     }
     strcat(tmp, buff);
     client->buffer = tmp;

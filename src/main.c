@@ -10,26 +10,6 @@
 static const int FTP_FAILURE = 84;
 static const int FTP_SUCCESS = 0;
 
-static char *get_root_directory(char *path)
-{
-    char *result = NULL;
-    size_t len = 0;
-
-    result = realpath(path, NULL);
-    if (result == NULL) {
-        free(path);
-        return NULL;
-    }
-    free(path);
-    len = strlen(result);
-    if (result[len - 1] != '/') {
-        result = realloc(result, sizeof(char) * (len + 2));
-        result[len] = '/';
-        result[len + 1] = '\0';
-    }
-    return result;
-}
-
 int main(int ac, char **av)
 {
     struct my_ftp_s my_ftp = {0};
@@ -37,7 +17,7 @@ int main(int ac, char **av)
 
     if (ac != 3 || strcmp(av[2], "") == 0)
         return FTP_FAILURE;
-    real_path = get_root_directory(strdup(av[2]));
+    real_path = concat_paths(av[2], "", true);
     if (is_dir(real_path) == false)
         return FTP_FAILURE;
     if (init_ftp(&my_ftp, av[1], real_path) == -1)

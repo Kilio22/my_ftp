@@ -95,30 +95,36 @@ extern const char ERROR_500[];
 extern const char DATA_425[];
 extern const char TRANSFER_ABORT[];
 
-struct socket_s *init_server(in_port_t port);
+// Main functions
 int init_ftp(struct my_ftp_s *my_ftp, char *port, char *real_path);
+int server_loop(struct my_ftp_s *my_ftp);
+int create_socket(void);
+
+// Server
+struct socket_s *init_server(in_port_t port);
 struct client_s *accept_client(struct socket_s *main_server, char *root_path,
 bool should_write);
-int server_loop(struct my_ftp_s *my_ftp);
-char *get_client_input(struct client_s *client);
-void manage_client(struct client_s *client, char *root_path);
 int manage_main_server(struct my_ftp_s *my_ftp);
 void manage_other_servers(struct client_s *client);
-int create_socket(void);
 int create_server(in_port_t port);
-
-// utils
 void remove_client(struct client_s *client);
-void close_client_data(struct client_s *client);
-ssize_t my_tab_len(void *array);
 bool is_data_channel_open(struct data_channel_s *data_channel, int fd);
 int connect_to_data_channel(struct client_s *client);
 void close_data_channel(struct client_s *client);
-struct my_ftp_s *get_ftp(struct my_ftp_s *ftp);
-char *concat_paths(char *cwd, char *filepath, bool need_slash);
-char *concat_strings(char *str1, char *str2);
-bool is_connected(struct client_s *client);
 void destroy_server(void);
+
+// Client
+void manage_client(struct client_s *client, char *root_path);
+void exec_command(struct client_s *client, char **params, char *root_path);
+char *get_client_input(struct client_s *client);
+void close_client_data(struct client_s *client);
+bool is_connected(struct client_s *client);
+char **parse_client_input(char *buffer);
+void unknown_command(struct client_s *client);
+
+// utils
+ssize_t my_tab_len(void *array);
+struct my_ftp_s *get_ftp(struct my_ftp_s *ftp);
 
 // commands
 void port(struct client_s *client, char **params, char *root_path);
@@ -138,5 +144,7 @@ void list(struct client_s *client, char **params, char *root_path);
 
 // directory
 bool is_dir(char *path);
+char *concat_paths(char *cwd, char *filepath, bool need_slash);
+char *concat_strings(char *str1, char *str2);
 
 #endif /* !MY_FTP_H_ */

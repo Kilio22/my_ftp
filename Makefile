@@ -40,21 +40,30 @@ TESTS_NAME	=	tests
 INCL_PATH	=	$(ROOT_PATH)$(INCL_NAME)
 TESTS_PATH	=	$(ROOT_PATH)$(TESTS_NAME)
 SRC_PATH	=	$(ROOT_PATH)$(SRC_NAME)
+CLIENT_PATH	=	client
+SERVER_PATH	=	server
 
 COMMANDS_PATH	=	ftp_commands
 
-SRC	=	accept.c	\
-		client_utils.c	\
+SRC	=	$(CLIENT_PATH)/client_is_connected.c	\
+		$(CLIENT_PATH)/close_client_data.c	\
+		$(CLIENT_PATH)/exec_command.c	\
+		$(CLIENT_PATH)/get_client_input.c	\
+		$(CLIENT_PATH)/manage_client.c	\
+		$(CLIENT_PATH)/parse_client_input.c	\
+		$(CLIENT_PATH)/unknown_command.c	\
+		$(SERVER_PATH)/accept.c	\
+		$(SERVER_PATH)/close_data_channel.c	\
+		$(SERVER_PATH)/connect_to_data_channel.c	\
+		$(SERVER_PATH)/destroy_server.c	\
+		$(SERVER_PATH)/init_server.c	\
+		$(SERVER_PATH)/is_data_channel_open.c	\
+		$(SERVER_PATH)/manage_server.c	\
+		$(SERVER_PATH)/remove_client.c	\
 		const_values.c	\
 		create_socket.c	\
-		data_channel_utils.c	\
-		destroy_server.c	\
 		directory.c	\
-		get_client_input.c	\
 		init_ftp.c	\
-		init_server.c	\
-		manage_client.c	\
-		manage_server.c	\
 		server_loop.c	\
 		utils.c	\
 		$(COMMANDS_PATH)/port.c	\

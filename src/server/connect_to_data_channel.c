@@ -2,23 +2,10 @@
 ** EPITECH PROJECT, 2020
 ** NWP_myftp_2019
 ** File description:
-** data_channel_utils
+** connect_to_data_channel
 */
 
 #include "my_ftp.h"
-
-void close_data_channel(struct client_s *client)
-{
-    if (client->data_channel.status != NONE) {
-        if (client->data_channel.fd != 0)
-            close(client->data_channel.fd);
-        if (client->data_channel.status == PASSIVE
-&& client->data_channel.server.fd) {
-                close(client->data_channel.server.fd);
-        }
-    }
-    memset(&client->data_channel, 0, sizeof(struct data_channel_s));
-}
 
 static int connect_to_data_channel_active(struct client_s *client)
 {
@@ -55,13 +42,4 @@ client->data_channel.status == PASSIVE)
         return connect_to_data_channel_passive(client);
     else
         return 0;
-}
-
-bool is_data_channel_open(struct data_channel_s *data_channel, int fd)
-{
-    if (data_channel->status == NONE) {
-        write(fd, DATA_425, strlen(DATA_425));
-        return false;
-    }
-    return true;
 }
